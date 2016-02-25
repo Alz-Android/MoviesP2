@@ -16,9 +16,16 @@ import android.widget.GridView;
 
 import com.facebook.stetho.Stetho;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import API.MovieApiEndpointInterface;
+import API.ServiceGenerator;
+import models.MovieList;
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Callback;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -94,13 +101,33 @@ public class MainActivityFragment extends Fragment {
 
     private void updateMovies(){
 
-//        GetMovieData getMovieRetro = new GetMovieData();
+        Log.i("sort1", "update1");
+        MovieApiEndpointInterface movieService = ServiceGenerator.createService(MovieApiEndpointInterface.class);
 
-        GetMovieTask getMovie = new GetMovieTask();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key),
-                getString(R.string.pref_sort_order_popularity));
-        Log.i("sort1", sortOrder);
-        getMovie.execute(sortOrder);
+        Log.i("sort1", "update2");
+        Call<MovieList> call =  movieService.MOVIE_LIST_CALL();
+
+        call.enqueue(new Callback<MovieList>() {
+
+            @Override
+            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+                if (response.isSuccess()) {
+                    Log.i("sort1", response.raw().body().toString());
+                    Log.i("sort1", response.raw().toString());
+                    Log.i("sort1", response.body().results.get(1).title.toString());
+                } else {
+                    Log.i("sort1", "update4");
+                    // error response, no access to resource?
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MovieList> call, Throwable t) {
+                // something went completely south (like no internet connection)
+                Log.d("sort1", t.getMessage());
+            }
+        });
     }
 }
+
+
