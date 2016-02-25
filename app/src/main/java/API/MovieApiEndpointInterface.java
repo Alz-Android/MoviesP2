@@ -1,4 +1,4 @@
-package com.example.al.moviesp1;
+package API;
 
 import models.MovieList;
 import retrofit2.Call;

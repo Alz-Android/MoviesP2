@@ -64,6 +64,16 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add to Favorites"
+            android:id="@+id/favorites_button"
+            android:layout_alignTop="@+id/trailer_text"
+            android:layout_alignRight="@+id/movie_image"
+            android:layout_alignEnd="@+id/movie_image"
+            android:layout_marginRight="80dp"
+            android:layout_marginEnd="80dp" />
 
     </RelativeLayout>
 </ScrollView>

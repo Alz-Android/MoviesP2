@@ -1,10 +1,10 @@
 package com.example.al.moviesp1;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
+import API.MovieApiEndpointInterface;
 import models.MovieList;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -16,11 +16,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Al on 1/27/2016.
  */
 public class GetMovieData implements Callback {
- //   public void GetMovieData(){}
+    //   public void GetMovieData(){}
 
 
-    public void GetMovieData()
-    {
+    @Override
+    public void onResponse(Call call, Response response) {
+
+    }
+
+    @Override
+    public void onFailure(Call call, Throwable t) {
+
+    }
+
+    public void GetMovieData() {
         final String BASE_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_count.desc&api_key=768a237ac06abffaaebe82515e4d142a";
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -32,19 +41,30 @@ public class GetMovieData implements Callback {
         MovieApiEndpointInterface movieService = retrofit.create(MovieApiEndpointInterface.class);
 
         Call<MovieList> call = movieService.MOVIE_LIST_CALL();
-        call.enqueue(new Callback<MovieList>() {
-            @Override
-            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+        try {
+            Response response = call.execute();
+        }catch(IOException e){
+            Log.e("GetMovieData", "Error ", e);
+        }
 
-                int statusCode = response.code();
-                MovieList user = response.body();
 
-            }
-            @Override
-            public void onFailure(Call<MovieList> call, Throwable t) {
-                // Log error here since request failed
-            }
-        });
     }
+
 }
+
+//        call.enqueue(new Callback<MovieList>() {
+//            @Override
+//            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+//
+//                int statusCode = response.code();
+//                MovieList user = response.body();
+//
+//            }
+//            @Override
+//            public void onFailure(Call<MovieList> call, Throwable t) {
+//                // Log error here since request failed
+//            }
+//        });
+
+
 
