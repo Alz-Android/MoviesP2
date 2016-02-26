@@ -1,50 +1,66 @@
 package com.example.al.moviesp1;
 
 import android.util.Log;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-
+import API.MovieApi;
+import API.ServiceGenerator;
 import models.MovieList;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Al on 1/27/2016.
  */
-public class GetMovieData implements Callback {
- //   public void GetMovieData(){}
+public class GetMovieData {
 
+    ArrayList<MovieInfo> movieInfoList = new ArrayList<>();
 
-    public void GetMovieData()
+    public void updateMovies(String sortOrder)
     {
-        final String BASE_URL = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_count.desc&api_key=768a237ac06abffaaebe82515e4d142a";
+        Log.i("sort1", "update1");
+        movieInfoList.clear();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        MovieApi movieService = ServiceGenerator.createService(MovieApi.class);
+        String apiKey = BuildConfig.MOVIES_TMDB_API_KEY;
+        Log.i("sort1", sortOrder + " "+ apiKey);
+        Call<MovieList> call = movieService.MOVIE_LIST_CALL(sortOrder, apiKey);
+        Log.i("sort1", "update11");
 
-        // prepare call in Retrofit 2.0
-        MovieApiEndpointInterface movieService = retrofit.create(MovieApiEndpointInterface.class);
 
-        Call<MovieList> call = movieService.MOVIE_LIST_CALL();
         call.enqueue(new Callback<MovieList>() {
             @Override
             public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+                if (response.isSuccess()) {
+                    Log.i("sort1", "update2");
+                    for(int i = 0; i < response.body().results.size(); i++) {
+                        Log.i("sort1", "update3");
+                        models.MovieJSON.Result movie = response.body().results.get(i);
+                        Log.i("sort1", "update4");
+                        movieInfoList.add(new MovieInfo(
+                                        movie.id.toString(),
+                                        movie.posterPath,
+                                        movie.title,
+                                        movie.overview,
+                                        movie.voteAverage.toString(),
+                                        movie.popularity.toString(),
+                                        movie.releaseDate.toString()
+                                )
+                        );
+                    }
+                    Log.i("sort1", response.headers().toString());
 
-                int statusCode = response.code();
-                MovieList user = response.body();
-
+                    MainActivityFragment.setMovieAdapter(movieInfoList);
+                } else {
+                    Log.i("sort1", "update4");
+                    // error response, no access to resource?
+                }
             }
             @Override
             public void onFailure(Call<MovieList> call, Throwable t) {
-                // Log error here since request failed
+                // something went completely south (like no internet connection)
+                Log.d("sort1", t.getMessage());
             }
         });
     }
 }
-

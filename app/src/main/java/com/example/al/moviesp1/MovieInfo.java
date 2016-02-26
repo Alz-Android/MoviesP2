@@ -88,4 +88,19 @@ public class MovieInfo implements Parcelable {
             return new MovieInfo(source);
         }
     };
+
+    @Override
+    public String toString() {
+        return "MovieInfo{" +
+                "mId='" + mId + '\'' +
+                ", mPosterPath='" + mPosterPath + '\'' +
+                ", mTitle='" + mTitle + '\'' +
+                ", mPlot='" + mPlot + '\'' +
+                ", mUserRating='" + mUserRating + '\'' +
+                ", mPopularity='" + mPopularity + '\'' +
+                ", mReleaseDate='" + mReleaseDate + '\'' +
+                ", mTrailerPath0='" + mTrailerPath0 + '\'' +
+                ", mTrailerPath1='" + mTrailerPath1 + '\'' +
+                '}';
+    }
 }
