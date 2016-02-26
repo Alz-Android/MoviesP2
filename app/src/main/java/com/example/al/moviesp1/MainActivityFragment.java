@@ -13,34 +13,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-
-import com.facebook.stetho.Stetho;
-
-import java.io.IOException;
 import java.util.ArrayList;
-
-import API.MovieApiEndpointInterface;
-import API.ServiceGenerator;
-import models.MovieList;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Callback;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
 
-    private static MovieAdapter movieAdapter;
+    private static MovieAdapter mMovieAdapter;
 
     public static void setMovieAdapter(ArrayList<MovieInfo> moviesObj) {
-        movieAdapter.clear();
-        movieAdapter.addAll(moviesObj);
-        movieAdapter.notifyDataSetChanged();
+        mMovieAdapter.clear();
+        mMovieAdapter.addAll(moviesObj);
+        mMovieAdapter.notifyDataSetChanged();
     }
 
-    public MainActivityFragment() {
+    public static MovieAdapter getMovieAdapter() {
+        return mMovieAdapter;
     }
 
     @Override
@@ -48,7 +37,7 @@ public class MainActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //for this fragment to handle menu events
         setHasOptionsMenu(true);
-        updateMovies();
+        update();
         Log.i("MainActivityFragment", "  onCreate()");
     }
 
@@ -66,7 +55,7 @@ public class MainActivityFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
-            updateMovies();
+            update();
             Log.i("MainActivityFragment", "onActivityResult()");
         }
     }
@@ -76,20 +65,20 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        movieAdapter = new MovieAdapter(getActivity(), new ArrayList<MovieInfo>());
-
-        Log.i("sort", "onCreateView()");
+        mMovieAdapter = new MovieAdapter(getActivity(), new ArrayList<MovieInfo>());
 
         // Get a reference to the GridView, and attach this adapter to it.
         GridView gridView = (GridView) rootView.findViewById(R.id.movies_grid);
-        gridView.setAdapter(movieAdapter);
+        gridView.setAdapter(mMovieAdapter);
 
         // Creating the intent to launch detailed view
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                MovieInfo movieObj = movieAdapter.getItem(position);
+
+
+                MovieInfo movieObj = mMovieAdapter.getItem(position);
                 Context context = getActivity();
                 Intent detailIntent = new Intent(context, DetailActivity.class);
                 detailIntent.putExtra("movie", movieObj);
@@ -99,34 +88,18 @@ public class MainActivityFragment extends Fragment {
         return rootView;
     }
 
-    private void updateMovies(){
+    private void update(){
+        GetMovieData movieData = new GetMovieData();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
+        movieData.updateMovies(sortOrder);
 
-        Log.i("sort1", "update1");
-        MovieApiEndpointInterface movieService = ServiceGenerator.createService(MovieApiEndpointInterface.class);
+        // The above is not guaranteed to finish cuz it's Async
+        // let's get the trailer keys using retrofit
 
-        Log.i("sort1", "update2");
-        Call<MovieList> call =  movieService.MOVIE_LIST_CALL();
 
-        call.enqueue(new Callback<MovieList>() {
 
-            @Override
-            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
-                if (response.isSuccess()) {
-                    Log.i("sort1", response.raw().body().toString());
-                    Log.i("sort1", response.raw().toString());
-                    Log.i("sort1", response.body().results.get(1).title.toString());
-                } else {
-                    Log.i("sort1", "update4");
-                    // error response, no access to resource?
-                }
-            }
 
-            @Override
-            public void onFailure(Call<MovieList> call, Throwable t) {
-                // something went completely south (like no internet connection)
-                Log.d("sort1", t.getMessage());
-            }
-        });
     }
 }
 

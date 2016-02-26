@@ -66,7 +66,7 @@ public class DetailActivity extends AppCompatActivity {
                                     ((TextView)rootView.findViewById(R.id.trailer_text)).setText("Trailer Not Available");
                             }
                         });
-                        getTrailer.execute(movieObj);
+                      getTrailer.execute(movieObj);
                     }
 
                 });
