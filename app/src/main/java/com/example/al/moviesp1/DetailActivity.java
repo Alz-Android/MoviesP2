@@ -44,6 +44,7 @@ public class DetailActivity extends AppCompatActivity {
                 ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(movieObj.mReleaseDate);
                 ((TextView)rootView.findViewById(R.id.userRating_text)).setText(movieObj.mUserRating);
                 ((TextView)rootView.findViewById(R.id.plot_text)).setText(movieObj.mPlot);
+                ((TextView)rootView.findViewById(R.id.review_text)).setText(movieObj.mReviews);
 
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_image);
 
@@ -56,19 +57,11 @@ public class DetailActivity extends AppCompatActivity {
                 (rootView.findViewById(R.id.trailer_text)).setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
-                        GetTrailerTask getTrailer = new GetTrailerTask(new FragmentCallback() {
-
-                            @Override
-                            public void onTaskDone() {
-                                if(movieObj.mTrailerPath0 != null)
+                        if(movieObj.mTrailerPath0 != null)
                                     LauncheTrailer(movieObj.mTrailerPath0);
                                 else
                                     ((TextView)rootView.findViewById(R.id.trailer_text)).setText("Trailer Not Available");
-                            }
-                        });
-                      getTrailer.execute(movieObj);
                     }
-
                 });
             }
             return rootView;

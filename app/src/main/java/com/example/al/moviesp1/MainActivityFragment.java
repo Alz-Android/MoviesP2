@@ -26,6 +26,8 @@ public class MainActivityFragment extends Fragment {
         mMovieAdapter.clear();
         mMovieAdapter.addAll(moviesObj);
         mMovieAdapter.notifyDataSetChanged();
+        GetTrailer trailer = new GetTrailer();
+        trailer.GetTrailer();
     }
 
     public static MovieAdapter getMovieAdapter() {
@@ -76,8 +78,6 @@ public class MainActivityFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-
-
                 MovieInfo movieObj = mMovieAdapter.getItem(position);
                 Context context = getActivity();
                 Intent detailIntent = new Intent(context, DetailActivity.class);
@@ -97,8 +97,10 @@ public class MainActivityFragment extends Fragment {
         // The above is not guaranteed to finish cuz it's Async
         // let's get the trailer keys using retrofit
 
+//        GetTrailer trailer = new GetTrailer();
+//        trailer.GetTrailer();
 
-
+        Log.i("sort1", "end update" );
 
     }
 }

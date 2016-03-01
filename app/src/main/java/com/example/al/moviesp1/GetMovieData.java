@@ -35,7 +35,7 @@ public class GetMovieData {
                     Log.i("sort1", "update2");
                     for(int i = 0; i < response.body().results.size(); i++) {
                         Log.i("sort1", "update3");
-                        models.MovieJSON.Result movie = response.body().results.get(i);
+                        models.MovieJSON movie = response.body().results.get(i);
                         Log.i("sort1", "update4");
                         movieInfoList.add(new MovieInfo(
                                         movie.id.toString(),
