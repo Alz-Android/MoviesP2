@@ -1,7 +1,5 @@
 package API;
-import RealmDbObjects.MovieList;
-
-//import models.MovieList;
+import models.MovieList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

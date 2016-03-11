@@ -6,21 +6,12 @@ import java.util.ArrayList;
 import API.MovieApi;
 import API.ServiceGenerator;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import io.realm.RealmObject;
-import io.realm.internal.Context;
-import io.realm.internal.Table;
-
 import retrofit2.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import RealmDbObjects.MovieList;
-import RealmDbObjects.MovieJSON;
-
-//import models.MovieJSON;
-//import models.MovieList;
+import models.MovieJSON;
+import models.MovieList;
 
 /**
  * Created by Al on 1/27/2016.
@@ -46,39 +37,27 @@ public class GetMovieData extends AppCompatActivity {
             public void onResponse(Call<MovieList> call, Response<MovieList> response) {
                 if (response.isSuccess()) {
                     Log.i("sort1", "update2");
-                    for(int i = 0; i < response.body().getResults().size(); i++) {
+                    for(int i = 0; i < response.body().results.size(); i++) {
                         Log.i("sort1", "update3");
    //                     RealmDbObjects.MovieJSON movie = (RealmDbObjects.MovieJSON)response.body().results.get(i);
 
-                        MovieJSON movie = (MovieJSON) response.body().getResults().get(i);
+                        MovieJSON movie = (MovieJSON) response.body().results.get(i);
 
                         Log.i("sort1", "update4");
 
-//                        MainActivityFragment.getRealm().beginTransaction();
-//                        MainActivityFragment.getRealm().copyToRealm(movie);
-//                        MainActivityFragment.getRealm().commitTransaction();
-
-//                        movieInfoList.add(new MovieInfo(
-//                                        movie.id.toString(),
-//                                        movie.posterPath,
-//                                        movie.title,
-//                                        movie.overview,
-//                                        movie.voteAverage.toString(),
-//                                        movie.popularity.toString(),
-//                                        movie.releaseDate.toString()
-//                                )
-//                        );
 
                         movieInfoList.add(new MovieInfo(
-                                        movie.getId().toString(),
-                                        movie.getPosterPath(),
-                                        movie.getTitle(),
-                                        movie.getOverview(),
-                                        movie.getVoteAverage().toString(),
-                                        movie.getPopularity().toString(),
-                                        movie.getReleaseDate().toString()
+                                        movie.id.toString(),
+                                        movie.posterPath,
+                                        movie.title,
+                                        movie.overview,
+                                        movie.voteAverage.toString(),
+                                        movie.popularity.toString(),
+                                        movie.releaseDate.toString()
                                 )
                         );
+
+
                     }
                     Log.i("sort1", response.headers().toString());
 

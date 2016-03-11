@@ -15,17 +15,12 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import java.util.ArrayList;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-
 /**
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
 
     private static MovieAdapter mMovieAdapter;
-
-    private static Realm realm = null;
 
     public static void setMovieAdapter(ArrayList<MovieInfo> moviesObj) {
         mMovieAdapter.clear();
@@ -35,16 +30,12 @@ public class MainActivityFragment extends Fragment {
         trailer.GetTrailer();
     }
     public static MovieAdapter getMovieAdapter() { return mMovieAdapter;  }
-    public static Realm getRealm() { return realm; }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //for this fragment to handle menu events
         setHasOptionsMenu(true);
-
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(getContext()).build();
-        realm = Realm.getInstance(realmConfig);
 
         update();
         Log.i("MainActivityFragment", "  onCreate()");
