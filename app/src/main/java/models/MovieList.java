@@ -13,7 +13,7 @@ public class MovieList {
     public Integer page;
     @SerializedName("results")
     @Expose
-    public List<MovieJSON> results = new ArrayList<MovieJSON>();
+    public ArrayList<MovieJSON> results = new ArrayList<>();
     @SerializedName("total_results")
     @Expose
     public Integer totalResults;

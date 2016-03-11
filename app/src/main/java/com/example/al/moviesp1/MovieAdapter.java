@@ -36,7 +36,7 @@ public class MovieAdapter extends ArrayAdapter<MovieInfo> {
                 .error(R.drawable.user_placeholder_error)
                 .into(imageView);
 
-        Log.i("sort1", String.valueOf(position)+" "+this.getItem(position).mPosterPath);
+        Log.i("adapter", String.valueOf(position)+" "+this.getItem(position).mPosterPath);
         return convertView;
     }
 }
