@@ -59,8 +59,19 @@ public class GetMovieData extends AppCompatActivity {
                         );
 
                         Log.i("sort1", " update5");
-                        DBMovieTable xx = new DBMovieTable(1,"a", "b", "c", 2.0F, 3.0F, "d");
-                        getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(xx,false));
+                        DBMovieTable movieRow = new DBMovieTable(
+                                movie.id,
+                                movie.posterPath,
+                                movie.title,
+                                movie.overview,
+                                movie.voteAverage,
+                                movie.popularity,
+                                movie.releaseDate
+                        );
+
+                    //      dummy data to check insert
+                   //     DBMovieTable movieRow = new DBMovieTable(1,"a", "b", "c", 2.0F, 3.0F, "d");
+                        getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
                         Log.i("sort1", " update6");
 
                     }
