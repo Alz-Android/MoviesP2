@@ -26,7 +26,7 @@ public class MovieInfo implements Parcelable {
 
     public MovieInfo(String id, String posterPath, String title, String plot, String userRating, String popularity,String releaseDate )
     {
-        Log.i("MainActivityFragmen", "movie object");
+        Log.i("MovieInfo", "movie object");
         this.mId = id;
         this.mPosterPath = posterPath;
         this.mTitle = title;

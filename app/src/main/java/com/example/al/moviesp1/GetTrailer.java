@@ -49,9 +49,9 @@ public class GetTrailer {
                             MainActivityFragment.getMovieAdapter().getItem(movieIndex).SetReviews(
                                     response.body().results.get(j).content
                             );
-                            Log.i("sort1z", MainActivityFragment.getMovieAdapter().getItem(movieIndex).mReviews);
+//                            Log.i("sort1z", MainActivityFragment.getMovieAdapter().getItem(movieIndex).mReviews);
                         }
-                        Log.i("sort1z", response.headers().toString());
+//                        Log.i("sort1z", response.headers().toString());
                     } else {
                         Log.i("sort1z", "update4z");
                         // error response, no access to resource?
@@ -60,7 +60,7 @@ public class GetTrailer {
                 @Override
                 public void onFailure(Call<ReviewsList> callReviews, Throwable t) {
                     // something went completely south (like no internet connection)
-                    Log.d("sort1", t.getMessage());
+                    Log.d("sort1z", t.getMessage());
                 }
             });
 
@@ -69,17 +69,17 @@ public class GetTrailer {
                 @Override
                 public void onResponse(Call<TrailerList> callTrailer, Response<TrailerList> response) {
                     if (response.isSuccess()) {
-                        Log.i("sort1", "update2a");
+                        Log.i("sort1z", "update2a");
                         for (int j = 0; j < response.body().results.size(); j++) {
-                            Log.i("sort1", "update3a");
+                            Log.i("sort1z", "update3a");
                             MainActivityFragment.getMovieAdapter().getItem(movieIndex).SetTrailers(
                                     response.body().results.get(j).key
                             );
-                            Log.i("sort1", MainActivityFragment.getMovieAdapter().getItem(movieIndex).mTrailerPath0);
+        //                    Log.i("sort1", MainActivityFragment.getMovieAdapter().getItem(movieIndex).mTrailerPath0);
                         }
-                        Log.i("sort1", response.headers().toString());
+        //                Log.i("sort1", response.headers().toString());
                     } else {
-                        Log.i("sort1", "update4");
+                        Log.i("sort1z", "update Error");
                         // error response, no access to resource?
                     }
                 }

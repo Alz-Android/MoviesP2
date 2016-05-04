@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import java.util.ArrayList;
 
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -28,6 +29,9 @@ public class MainActivityFragment extends Fragment {
         mMovieAdapter.notifyDataSetChanged();
         GetTrailer trailer = new GetTrailer();
         trailer.GetTrailer();
+
+
+
     }
     public static MovieAdapter getMovieAdapter() { return mMovieAdapter;  }
 
@@ -91,6 +95,9 @@ public class MainActivityFragment extends Fragment {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
         movieData.updateMovies(sortOrder);
+
+
+
 
         // The above is not guaranteed to finish cuz it's Async
         // let's get the trailer keys using retrofit

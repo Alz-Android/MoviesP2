@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import API.MovieApi;
 import API.ServiceGenerator;
 
+import models.DBMovieTable;
+import models.MoviesTable;
 import retrofit2.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,7 +47,6 @@ public class GetMovieData extends AppCompatActivity {
 
                         Log.i("sort1", "update4");
 
-
                         movieInfoList.add(new MovieInfo(
                                         movie.id.toString(),
                                         movie.posterPath,
@@ -57,13 +58,17 @@ public class GetMovieData extends AppCompatActivity {
                                 )
                         );
 
+                        Log.i("sort1", " update5");
+                        DBMovieTable xx = new DBMovieTable(1,"a", "b", "c", 2.0F, 3.0F, "d");
+                        getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(xx,false));
+                        Log.i("sort1", " update6");
 
                     }
                     Log.i("sort1", response.headers().toString());
 
                     MainActivityFragment.setMovieAdapter(movieInfoList);
                 } else {
-                    Log.i("sort1", "update4");
+                    Log.i("sort1", "update Error");
                     // error response, no access to resource?
                 }
             }

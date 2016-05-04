@@ -6,18 +6,22 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by Al on 1/28/2016.
  */
+
 
 public class MovieJSON {
 
     @SerializedName("poster_path")
     @Expose
     public String posterPath;
+
     @SerializedName("adult")
     @Expose
     public Boolean adult;
+
     @SerializedName("overview")
     @Expose
     public String overview;
