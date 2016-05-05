@@ -24,6 +24,8 @@ public class GetMovieData extends AppCompatActivity {
     private Context mcontext;
 
     public GetMovieData(Context context) {
+
+        Log.i("sortContext", context.toString());
         mcontext = context;
     }
 
