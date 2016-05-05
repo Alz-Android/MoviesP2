@@ -91,7 +91,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void update(){
-        GetMovieData movieData = new GetMovieData();
+        GetMovieData movieData = new GetMovieData(getActivity());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
         movieData.updateMovies(sortOrder);
