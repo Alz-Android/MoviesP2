@@ -33,7 +33,7 @@
         </activity>
         <provider
             android:authorities="just.some.test_provider.authority"
-            android:name=".ContentProvider.TestProvider" >
+            android:name=".ContentProvider.MovieProvider" >
         </provider>
     </application>
 

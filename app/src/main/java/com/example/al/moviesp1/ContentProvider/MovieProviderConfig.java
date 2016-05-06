@@ -8,11 +8,11 @@ import ckm.simple.sql_provider.annotation.SimpleSQLConfig;
  * Created by Al on 2016-05-02.
  */
 @SimpleSQLConfig(
-        name = "TestProvider",
+        name = "MovieProvider",
         authority = "just.some.test_provider.authority",
         database = "Movies.db",
         version = 1)
-public class TestProviderConfig implements ProviderConfig {
+public class MovieProviderConfig implements ProviderConfig {
     @Override
     public UpgradeScript[] getUpdateScripts() {
         return new UpgradeScript[0];

@@ -96,15 +96,6 @@ public class MainActivityFragment extends Fragment {
         String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
         movieData.updateMovies(sortOrder);
 
-
-
-
-        // The above is not guaranteed to finish cuz it's Async
-        // let's get the trailer keys using retrofit
-
-//        GetTrailer trailer = new GetTrailer();
-//        trailer.GetTrailer();
-
         Log.i("sort1", "end update" );
 
     }
