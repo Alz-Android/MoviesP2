@@ -1,4 +1,4 @@
-package ContentProvider;
+package com.example.al.moviesp1.ContentProvider;
 
 import ckm.simple.sql_provider.UpgradeScript;
 import ckm.simple.sql_provider.annotation.ProviderConfig;
