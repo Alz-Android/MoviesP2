@@ -10,7 +10,7 @@ import ckm.simple.sql_provider.annotation.SimpleSQLConfig;
 
 @SimpleSQLConfig(
         name = "TrailerProvider",
-        authority = "just.some.test_provider.authority",
+        authority = "just.some.test_provider.authority1",
         database = "Trailer.db",
         version = 1)
 public class TrailerProviderConfig implements ProviderConfig {

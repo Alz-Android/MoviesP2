@@ -21,12 +21,13 @@ import models.MovieList;
  */
 public class GetMovieData extends AppCompatActivity {
 
-    private Context mcontext;
+    private Context mContext;
+    private MainActivityFragment mainActivityFragment = new MainActivityFragment();
 
     public GetMovieData(Context context) {
 
         Log.i("sortContext", context.toString());
-        mcontext = context;
+        mContext = context;
     }
 
     ArrayList<MovieInfo> movieInfoList = new ArrayList<>();
@@ -75,12 +76,12 @@ public class GetMovieData extends AppCompatActivity {
                                 movie.releaseDate.toString()
                         );
 
-                        mcontext.getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
+                        mContext.getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
                         Log.i("sort1", " update6");
                     }
                     Log.i("sort1", response.headers().toString());
 
-                    MainActivityFragment.setMovieAdapter(movieInfoList);
+                    mainActivityFragment.setMovieAdapter(movieInfoList);
                 } else {
                     Log.i("sort1", "update Error");
                     // error response, no access to resource?

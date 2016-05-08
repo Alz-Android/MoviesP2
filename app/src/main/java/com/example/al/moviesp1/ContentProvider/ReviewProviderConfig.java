@@ -9,7 +9,7 @@ import ckm.simple.sql_provider.annotation.SimpleSQLConfig;
  */
 @SimpleSQLConfig(
         name = "ReviewProvider",
-        authority = "just.some.test_provider.authority",
+        authority = "just.some.test_provider.authority2",
         database = "Review.db",
         version = 1)
 public class ReviewProviderConfig implements ProviderConfig {
@@ -18,4 +18,3 @@ public class ReviewProviderConfig implements ProviderConfig {
         return new UpgradeScript[0];
     }
 }
-

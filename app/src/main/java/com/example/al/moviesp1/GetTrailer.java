@@ -1,5 +1,6 @@
 package com.example.al.moviesp1;
 
+import android.content.Context;
 import android.util.Log;
 import java.util.ArrayList;
 
@@ -17,6 +18,15 @@ import retrofit2.Response;
  */
 public class GetTrailer {
 
+    private Context mContext;
+    private MainActivityFragment mainActivityFragment = new MainActivityFragment();
+
+    public GetTrailer(Context context) {
+
+        Log.i("TrailerContext", context.toString());
+        mContext = context;
+    }
+
     TrailerApi trailerService = ServiceGenerator.createService(TrailerApi.class);
     ReviewApi reviewService = ServiceGenerator.createService(ReviewApi.class);
 
@@ -28,14 +38,14 @@ public class GetTrailer {
     ArrayList<String> movieIds = new ArrayList<String>();
 
     public void GetTrailer() {
-        for (int i = 0; i < MainActivityFragment.getMovieAdapter().getCount(); i++) {
+        for (int i = 0; i < mainActivityFragment.getMovieAdapter().getCount(); i++) {
             //           movieIds.add(MainActivityFragment.getMovieAdapter().getItem(i).mId);
 
             Call<TrailerList> callTrailer = trailerService.TRAILER_CALL(
-                    MainActivityFragment.getMovieAdapter().getItem(i).mId, apiKey);
+                    mainActivityFragment.getMovieAdapter().getItem(i).mId, apiKey);
 
             Call<ReviewsList> callReviews = reviewService.REVIEW_CALL(
-                    MainActivityFragment.getMovieAdapter().getItem(i).mId, apiKey);
+                    mainActivityFragment.getMovieAdapter().getItem(i).mId, apiKey);
 
             // needs to be declared final because it's being used in an inner class
             final int movieIndex = i;
@@ -46,9 +56,11 @@ public class GetTrailer {
                         Log.i("sort1z", "update2z");
                         for (int j = 0; j < response.body().results.size(); j++) {
                             Log.i("sort1z", "update3z");
-                            MainActivityFragment.getMovieAdapter().getItem(movieIndex).SetReviews(
-                                    response.body().results.get(j).content
-                            );
+                            mainActivityFragment.getMovieAdapter().getItem(movieIndex).SetReviews(
+                                    response.body().results.get(j).content);
+
+
+
 //                            Log.i("sort1z", MainActivityFragment.getMovieAdapter().getItem(movieIndex).mReviews);
                         }
 //                        Log.i("sort1z", response.headers().toString());
@@ -72,7 +84,7 @@ public class GetTrailer {
                         Log.i("sort1z", "update2a");
                         for (int j = 0; j < response.body().results.size(); j++) {
                             Log.i("sort1z", "update3a");
-                            MainActivityFragment.getMovieAdapter().getItem(movieIndex).SetTrailers(
+                            mainActivityFragment.getMovieAdapter().getItem(movieIndex).SetTrailers(
                                     response.body().results.get(j).key
                             );
         //                    Log.i("sort1", MainActivityFragment.getMovieAdapter().getItem(movieIndex).mTrailerPath0);

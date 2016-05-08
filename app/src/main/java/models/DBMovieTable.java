@@ -31,7 +31,7 @@ public class DBMovieTable {
     @SimpleSQLColumn("releaseDate")
     public String mReleaseDate;
 
-    @SimpleSQLColumn("id")
+    @SimpleSQLColumn(value = "id", primary = true)
     public String mId;
 
     @SimpleSQLColumn("title")

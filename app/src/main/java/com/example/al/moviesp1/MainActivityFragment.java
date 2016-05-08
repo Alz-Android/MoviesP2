@@ -23,17 +23,20 @@ public class MainActivityFragment extends Fragment {
 
     private static MovieAdapter mMovieAdapter;
 
-    public static void setMovieAdapter(ArrayList<MovieInfo> moviesObj) {
+    public void setMovieAdapter(ArrayList<MovieInfo> moviesObj) {
         mMovieAdapter.clear();
         mMovieAdapter.addAll(moviesObj);
         mMovieAdapter.notifyDataSetChanged();
-        GetTrailer trailer = new GetTrailer();
+
+        Log.i("MainActivityFrag Trail", "trail");
+        Log.i("MainActivityFrag Trail", getActivity().toString());
+        GetTrailer trailer = new GetTrailer(getActivity());
         trailer.GetTrailer();
-
-
-
     }
-    public static MovieAdapter getMovieAdapter() { return mMovieAdapter;  }
+
+    public MovieAdapter getMovieAdapter() {
+        return mMovieAdapter;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,15 +93,14 @@ public class MainActivityFragment extends Fragment {
         return rootView;
     }
 
-    private void update(){
+    private void update() {
+        Log.i("MainActivityFrag update", getActivity().toString());
         GetMovieData movieData = new GetMovieData(getActivity());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
         movieData.updateMovies(sortOrder);
-
-        Log.i("sort1", "end update" );
-
     }
+
 }
 
 
