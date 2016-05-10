@@ -1,5 +1,6 @@
 package com.example.al.moviesp1;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import java.util.ArrayList;
 
-
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -23,14 +23,14 @@ public class MainActivityFragment extends Fragment {
 
     private static MovieAdapter mMovieAdapter;
 
-    public void setMovieAdapter(ArrayList<MovieInfo> moviesObj) {
+    public void setMovieAdapter(ArrayList<MovieInfo> moviesObj, Context context) {
         mMovieAdapter.clear();
         mMovieAdapter.addAll(moviesObj);
         mMovieAdapter.notifyDataSetChanged();
 
-        Log.i("MainActivityFrag Trail", "trail");
-        Log.i("MainActivityFrag Trail", getActivity().toString());
-        GetTrailer trailer = new GetTrailer(getActivity());
+        Log.i("MainActivityFrag Trail", "true");
+        Log.i("MainActivityFrag Trail", context.toString());
+        GetTrailer trailer = new GetTrailer(context);
         trailer.GetTrailer();
     }
 
@@ -100,7 +100,6 @@ public class MainActivityFragment extends Fragment {
         String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
         movieData.updateMovies(sortOrder);
     }
-
 }
 
 

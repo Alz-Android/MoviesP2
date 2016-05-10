@@ -12,18 +12,18 @@ public class DBTrailerTable {
 
     public DBTrailerTable(){}
 
-    public DBTrailerTable(String id, String key, String name){
+    public DBTrailerTable(String id, String key ){
         this.mId = id;
         this.mKey = key;
-        this.mName = name;
+  //      this.mName = name;
     }
 
-    @SimpleSQLColumn(value = "id", primary = true)
+    @SimpleSQLColumn("id")
     public String mId;
 
     @SimpleSQLColumn("key")
     public String mKey;
 
-    @SimpleSQLColumn("name")
-    public String mName;
+//    @SimpleSQLColumn("name")
+//    public String mName;
 }

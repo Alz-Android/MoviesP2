@@ -10,7 +10,8 @@ import ckm.simple.sql_provider.annotation.SimpleSQLTable;
 public class DBMovieTable {
     public DBMovieTable(){}
 
-    public DBMovieTable(String id, String posterPath, String title, String plot, String userRating, String popularity,String releaseDate ){
+    public DBMovieTable(String favorite, String id, String posterPath, String title, String plot, String userRating, String popularity,String releaseDate ){
+        this.mFavorite = favorite;
         this.mId = id;
         this.mPosterPath = posterPath;
         this.mTitle = title;
@@ -22,6 +23,10 @@ public class DBMovieTable {
         else
             this.mReleaseDate = "n/a";
     }
+
+    @SimpleSQLColumn("favorite")
+    public String mFavorite;
+
     @SimpleSQLColumn("poster_path")
     public String mPosterPath;
 
@@ -31,7 +36,7 @@ public class DBMovieTable {
     @SimpleSQLColumn("releaseDate")
     public String mReleaseDate;
 
-    @SimpleSQLColumn(value = "id", primary = true)
+    @SimpleSQLColumn("id")
     public String mId;
 
     @SimpleSQLColumn("title")

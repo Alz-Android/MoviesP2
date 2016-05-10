@@ -13,22 +13,28 @@ public class DBReviewTable {
 
     public DBReviewTable(){}
 
-    public DBReviewTable(String id, String author, String content, String url){
-        this.mId = id;
-        this.mAuthor = author;
+    public DBReviewTable(String movieId, String content){
+        this.mMovieId = movieId;
         this.mContent = content;
-        this.mUrl = url;
+
+//        this.mAuthor = author;
+//        this.mUrl = url;
     }
 
-    @SimpleSQLColumn(value = "id", primary = true)
-    public String mId;
-
-    @SimpleSQLColumn("Author")
-    public String mAuthor;
+    @SimpleSQLColumn("movieId")
+    public String mMovieId;
 
     @SimpleSQLColumn("Content")
     public String mContent;
 
-    @SimpleSQLColumn("Url")
-    public String mUrl;
+//    @SimpleSQLColumn(value = "id", primary = true)
+//    public String mId;
+
+
+
+//    @SimpleSQLColumn("Author")
+//    public String mAuthor;
+//
+//    @SimpleSQLColumn("Url")
+//    public String mUrl;
 }

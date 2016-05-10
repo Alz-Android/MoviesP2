@@ -7,8 +7,15 @@ import java.util.ArrayList;
 import API.ReviewApi;
 import API.ServiceGenerator;
 import API.TrailerApi;
+import models.DBMovieTable;
+import models.DBReviewTable;
+import models.DBTrailerTable;
+import models.MovieJSON;
+import models.MoviesTable;
+import models.ReviewTable;
 import models.ReviewsList;
 import models.TrailerList;
+import models.TrailerTable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,7 +44,16 @@ public class GetTrailer {
 
     ArrayList<String> movieIds = new ArrayList<String>();
 
+
+    // This outer loop goes through all the movies
+    // 1st inner loop uses retrofit to attach relevant Reviews for the current movie
+    // 2nd inner loop uses retrofit to attach relevant Traiers for the current movie
+
     public void GetTrailer() {
+
+        mContext.getContentResolver().delete(ReviewTable.CONTENT_URI,null,null);
+        mContext.getContentResolver().delete(TrailerTable.CONTENT_URI,null,null);
+
         for (int i = 0; i < mainActivityFragment.getMovieAdapter().getCount(); i++) {
             //           movieIds.add(MainActivityFragment.getMovieAdapter().getItem(i).mId);
 
@@ -53,26 +69,33 @@ public class GetTrailer {
                 @Override
                 public void onResponse(Call<ReviewsList> callReviews, Response<ReviewsList> response) {
                     if (response.isSuccess()) {
-                        Log.i("sort1z", "update2z");
+                        Log.i("GetTrailer", "update2z");
                         for (int j = 0; j < response.body().results.size(); j++) {
-                            Log.i("sort1z", "update3z");
-                            mainActivityFragment.getMovieAdapter().getItem(movieIndex).SetReviews(
-                                    response.body().results.get(j).content);
+                            Log.i("GetTrailer", "update3z");
+
+        // step one, get movie from adapter, and attach review
+        // step 2: get movie from db and attach review
 
 
+                            String movieID = mainActivityFragment.getMovieAdapter().getItem(movieIndex).mId;
+                            String review = response.body().results.get(j).content;
 
-//                            Log.i("sort1z", MainActivityFragment.getMovieAdapter().getItem(movieIndex).mReviews);
+                            Log.i("GetTrailer", " update4z");
+                            DBReviewTable reviewRow = new DBReviewTable(movieID, review);
+
+                            mContext.getContentResolver().insert(ReviewTable.CONTENT_URI, ReviewTable.getContentValues(reviewRow,false));
+                            Log.i("GetTrailer", " update5z");
                         }
 //                        Log.i("sort1z", response.headers().toString());
                     } else {
-                        Log.i("sort1z", "update4z");
+                        Log.i("GetTrailer", "update6z");
                         // error response, no access to resource?
                     }
                 }
                 @Override
                 public void onFailure(Call<ReviewsList> callReviews, Throwable t) {
                     // something went completely south (like no internet connection)
-                    Log.d("sort1z", t.getMessage());
+                    Log.d("GetTrailer", t.getMessage());
                 }
             });
 
@@ -84,10 +107,17 @@ public class GetTrailer {
                         Log.i("sort1z", "update2a");
                         for (int j = 0; j < response.body().results.size(); j++) {
                             Log.i("sort1z", "update3a");
-                            mainActivityFragment.getMovieAdapter().getItem(movieIndex).SetTrailers(
-                                    response.body().results.get(j).key
-                            );
-        //                    Log.i("sort1", MainActivityFragment.getMovieAdapter().getItem(movieIndex).mTrailerPath0);
+//                            mainActivityFragment.getMovieAdapter().getItem(movieIndex).SetTrailers(
+//                                    response.body().results.get(j).key );
+
+                            String movieID = mainActivityFragment.getMovieAdapter().getItem(movieIndex).mId;
+                            String trialer = response.body().results.get(j).key;
+
+                            Log.i("GetTrailer", " update4a");
+                            DBTrailerTable trailerRow = new DBTrailerTable(movieID, trialer);
+
+                            mContext.getContentResolver().insert(TrailerTable.CONTENT_URI, TrailerTable.getContentValues(trailerRow,false));
+                            Log.i("GetTrailer", " update5a");
                         }
         //                Log.i("sort1", response.headers().toString());
                     } else {

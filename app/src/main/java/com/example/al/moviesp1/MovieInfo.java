@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-
 /**
  * Created by Al on 2016-01-07.
  */
@@ -51,8 +50,6 @@ public class MovieInfo implements Parcelable {
     public void SetReviews(String review) {
         this.mReviews = review;
     }
-
-
 
 
     public MovieInfo(Parcel source) {

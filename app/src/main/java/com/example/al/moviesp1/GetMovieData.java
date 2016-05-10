@@ -36,7 +36,7 @@ public class GetMovieData extends AppCompatActivity {
     {
         Log.i("sort1", "update1");
         movieInfoList.clear();
-        Log.i("sort1", "update1a");
+        mContext.getContentResolver().delete(MoviesTable.CONTENT_URI,null,null);
 
         MovieApi movieService = ServiceGenerator.createService(MovieApi.class);
         String apiKey = BuildConfig.MOVIES_TMDB_API_KEY;
@@ -50,9 +50,11 @@ public class GetMovieData extends AppCompatActivity {
                 if (response.isSuccess()) {
                     Log.i("sort1", "update2");
                     for(int i = 0; i < response.body().results.size(); i++) {
-                        Log.i("sort1", "update3");
+                        Log.i("sort1", "update3xx");
                         MovieJSON movie = (MovieJSON) response.body().results.get(i);
-                        Log.i("sort1", "update4");
+                        Log.i("sortid", "update4");
+
+                        Log.i("sortid", movie.id.toString());
 
                         movieInfoList.add(new MovieInfo(
                                         movie.id.toString(),
@@ -65,8 +67,10 @@ public class GetMovieData extends AppCompatActivity {
                                 )
                         );
 
-                        Log.i("sort1", " update5");
+                        Log.i("sortid", " update5");
+
                         DBMovieTable movieRow = new DBMovieTable(
+                                "false",
                                 movie.id.toString(),
                                 movie.posterPath,
                                 movie.title,
@@ -77,11 +81,11 @@ public class GetMovieData extends AppCompatActivity {
                         );
 
                         mContext.getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
-                        Log.i("sort1", " update6");
+
                     }
                     Log.i("sort1", response.headers().toString());
 
-                    mainActivityFragment.setMovieAdapter(movieInfoList);
+                    mainActivityFragment.setMovieAdapter(movieInfoList, mContext );
                 } else {
                     Log.i("sort1", "update Error");
                     // error response, no access to resource?

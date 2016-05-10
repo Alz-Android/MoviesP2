@@ -11,7 +11,7 @@ import ckm.simple.sql_provider.annotation.SimpleSQLConfig;
         name = "MovieProvider",
         authority = "just.some.test_provider.authority",
         database = "Movies.db",
-        version = 1)
+        version = 4)
 public class MovieProviderConfig implements ProviderConfig {
     @Override
     public UpgradeScript[] getUpdateScripts() {

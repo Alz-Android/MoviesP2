@@ -36,11 +36,11 @@
             android:name=".ContentProvider.MovieProvider" >
         </provider>
         <provider
-            android:authorities="just.some.test_provider.authority2"
+            android:authorities="just.some.test_provider.authority1"
             android:name=".ContentProvider.ReviewProvider" >
         </provider>
         <provider
-            android:authorities="just.some.test_provider.authority1"
+            android:authorities="just.some.test_provider.authority2"
             android:name=".ContentProvider.TrailerProvider" >
         </provider>
     </application>
