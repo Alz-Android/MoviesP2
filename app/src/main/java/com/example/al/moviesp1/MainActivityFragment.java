@@ -28,10 +28,9 @@ public class MainActivityFragment extends Fragment {
         mMovieAdapter.addAll(moviesObj);
         mMovieAdapter.notifyDataSetChanged();
 
-        Log.i("MainActivityFrag Trail", "true");
-        Log.i("MainActivityFrag Trail", context.toString());
-        GetTrailer trailer = new GetTrailer(context);
-        trailer.GetTrailer();
+//            Log.i("MainActivityFrag Trail", "true");
+//            GetTrailer trailer = new GetTrailer(mContext);
+//            trailer.GetTrailer();
     }
 
     public MovieAdapter getMovieAdapter() {
@@ -62,6 +61,7 @@ public class MainActivityFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
+
             update();
             Log.i("MainActivityFragment", "onActivityResult()");
         }
@@ -98,7 +98,8 @@ public class MainActivityFragment extends Fragment {
         GetMovieData movieData = new GetMovieData(getActivity());
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
-        movieData.updateMovies(sortOrder);
+
+        movieData.updateMovies();
     }
 }
 
