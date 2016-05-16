@@ -24,7 +24,7 @@ public class GetMovieData extends AppCompatActivity {
 
     private Context mContext;
     private MainActivityFragment mainActivityFragment = new MainActivityFragment();
-    ArrayList<MovieInfo> movieInfoList = new ArrayList<>();
+//    ArrayList<MovieInfo> movieInfoList = new ArrayList<>();
 
     public GetMovieData(Context context) {
         mContext = context;
@@ -32,7 +32,7 @@ public class GetMovieData extends AppCompatActivity {
 
     public void updateMovies() {
         Log.i("sort1", "update1");
-        movieInfoList.clear();
+ //       movieInfoList.clear();
         String[] args = new String[]{"false"};
         mContext.getContentResolver().delete(MoviesTable.CONTENT_URI, "favorite=?", args);
         MovieApi movieService = ServiceGenerator.createService(MovieApi.class);
@@ -59,16 +59,16 @@ public class GetMovieData extends AppCompatActivity {
 
                             Log.i("sortid", movie.id.toString());
 
-                            movieInfoList.add(new MovieInfo(
-                                            movie.id.toString(),
-                                            movie.posterPath,
-                                            movie.title,
-                                            movie.overview,
-                                            movie.voteAverage.toString(),
-                                            movie.popularity.toString(),
-                                            movie.releaseDate.toString()
-                                    )
-                            );
+//                            movieInfoList.add(new MovieInfo(
+//                                            movie.id.toString(),
+//                                            movie.posterPath,
+//                                            movie.title,
+//                                            movie.overview,
+//                                            movie.voteAverage.toString(),
+//                                            movie.popularity.toString(),
+//                                            movie.releaseDate.toString()
+//                                    )
+//                            );
 
                             Log.i("sortid", " update5");
 
@@ -87,7 +87,7 @@ public class GetMovieData extends AppCompatActivity {
                         }
                         Log.i("sort1", response.headers().toString());
 
-                        mainActivityFragment.setMovieAdapter(movieInfoList, mContext);
+//                        mainActivityFragment.setMovieAdapter(movieInfoList, mContext);
                     } else {
                         Log.i("sort1", "update Error");
                         // error response, no access to resource?
