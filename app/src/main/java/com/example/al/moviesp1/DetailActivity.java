@@ -5,12 +5,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
+
 import com.squareup.picasso.Picasso;
+
+import models.DBMovieTable;
+import models.MoviesTable;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -44,6 +50,7 @@ public class DetailActivity extends AppCompatActivity {
                 ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(movieObj.mReleaseDate);
                 ((TextView)rootView.findViewById(R.id.userRating_text)).setText(movieObj.mUserRating);
                 ((TextView)rootView.findViewById(R.id.plot_text)).setText(movieObj.mPlot);
+                ((TextView)rootView.findViewById(R.id.review_text)).setText(movieObj.mReviews);
 
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_image);
 
@@ -53,22 +60,44 @@ public class DetailActivity extends AppCompatActivity {
                         .error(R.drawable.user_placeholder_error)
                         .into(imageView);
 
+                final ToggleButton tB = (ToggleButton) rootView.findViewById(R.id.favorites_ToggleButton);
+                tB.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        if(tB.isChecked()){
+                            Log.i("DetailActivityFragment", " Yes");
+
+                            DBMovieTable movieRow = new DBMovieTable(
+                                    "true",
+                                    movieObj.mId,
+                                    movieObj.mPosterPath,
+                                    movieObj.mTitle,
+                                    movieObj.mPlot,
+                                    movieObj.mUserRating,
+                                    movieObj.mPopularity,
+                                    movieObj.mReleaseDate
+                            );
+
+                            getContext().getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
+
+                        }
+                        else
+                            Log.i("DetailActivityFragment", " No");
+
+
+                    }
+                });
+
                 (rootView.findViewById(R.id.trailer_text)).setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View view) {
-                        GetTrailerTask getTrailer = new GetTrailerTask(new FragmentCallback() {
-
-                            @Override
-                            public void onTaskDone() {
-                                if(movieObj.mTrailerPath0 != null)
+                        if(movieObj.mTrailerPath0 != null)
                                     LauncheTrailer(movieObj.mTrailerPath0);
                                 else
                                     ((TextView)rootView.findViewById(R.id.trailer_text)).setText("Trailer Not Available");
-                            }
-                        });
-                      getTrailer.execute(movieObj);
                     }
-
                 });
             }
             return rootView;

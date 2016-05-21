@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 ext.extProgram = new Properties()
 extProgram.load(file("app.properties").newDataInputStream())
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.example.al.moviesp1"
@@ -13,6 +14,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -44,4 +46,9 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
     compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    compile 'com.squareup:javapoet:1.2.0'
+    compile 'ckm.simple:simple_sql_provider_annotation:1.0.6'
+    compile 'ckm.simple:simple_sql_provider_processor:1.0.6'
+    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
 }

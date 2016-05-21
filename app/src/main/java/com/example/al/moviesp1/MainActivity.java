@@ -2,8 +2,8 @@ package com.example.al.moviesp1;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
-
 import com.facebook.stetho.Stetho;
 
 public class MainActivity extends AppCompatActivity {

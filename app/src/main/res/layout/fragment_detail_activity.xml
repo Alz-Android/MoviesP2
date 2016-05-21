@@ -38,11 +38,22 @@
             android:textSize="20dp"
             android:text="@string/hello_blank_fragment" />
 
+        <ToggleButton
+            android:id="@+id/favorites_ToggleButton"
+            android:textOff="Favorite"
+            android:textOn="Favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/userRating_text"
+            android:layout_toRightOf="@+id/movie_image"
+            android:layout_marginTop="30dp" />
+
         <TextView
             android:id="@+id/plot_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/movie_image"
+            android:layout_marginTop="30dp"
             android:textSize="15dp"
             android:text="@string/hello_blank_fragment" />
 
@@ -55,26 +66,25 @@
             android:scaleType="centerCrop" />
 
         <TextView
+            android:id="@+id/trailer_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Trailer 1"
-            android:id="@+id/trailer_text"
+            android:text=">>Trailer"
             android:layout_below="@+id/plot_text"
+            android:layout_marginTop="15dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/review_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add to Favorites"
-            android:id="@+id/favorites_button"
-            android:layout_alignTop="@+id/trailer_text"
-            android:layout_alignRight="@+id/movie_image"
-            android:layout_alignEnd="@+id/movie_image"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="80dp"
-            android:layout_marginEnd="80dp" />
+            android:layout_below="@+id/trailer_text"
+            android:layout_marginTop="30dp"
+            android:textSize="15dp"
+            android:text="@string/hello_blank_fragment" />
+
 
     </RelativeLayout>
 </ScrollView>

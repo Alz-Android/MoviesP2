@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-
 /**
  * Created by Al on 2016-01-07.
  */
@@ -19,13 +18,14 @@ public class MovieInfo implements Parcelable {
     String mReleaseDate;
     String mTrailerPath0;
     String mTrailerPath1;
+    String mReviews;
 
     // Each movieInfoList objects holds one movie's information that is later put into an array of movieInfoList objects
     //Parcelable was implemented for better performance than Serializable.
 
     public MovieInfo(String id, String posterPath, String title, String plot, String userRating, String popularity,String releaseDate )
     {
-        Log.i("MainActivityFragmen", "movie object");
+        Log.i("MovieInfo", "movie object");
         this.mId = id;
         this.mPosterPath = posterPath;
         this.mTitle = title;
@@ -47,6 +47,11 @@ public class MovieInfo implements Parcelable {
         this.mTrailerPath1 = trailerPath1;
     }
 
+    public void SetReviews(String review) {
+        this.mReviews = review;
+    }
+
+
     public MovieInfo(Parcel source) {
         mId = source.readString();
         mPosterPath = source.readString();
@@ -57,6 +62,7 @@ public class MovieInfo implements Parcelable {
         mReleaseDate = source.readString();
         mTrailerPath0 = source.readString();
         mTrailerPath1 = source.readString();
+        mReviews = source.readString();
     }
 
     @Override
@@ -75,6 +81,7 @@ public class MovieInfo implements Parcelable {
         dest.writeString(mReleaseDate);
         dest.writeString(mTrailerPath0);
         dest.writeString(mTrailerPath1);
+        dest.writeString(mReviews);
     }
 
     public static final Creator<MovieInfo> CREATOR = new Creator<MovieInfo>() {
