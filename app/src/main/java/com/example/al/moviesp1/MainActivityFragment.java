@@ -8,8 +8,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,41 +20,46 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import java.util.ArrayList;
 
+import models.MoviesTable;
+
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends FragmentActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    @Override
-    public Loader onCreateLoader(int id, Bundle args) {
-        return null;
-    }
+public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+
+//    private static MovieAdapter mMovieAdapter;
+    private static final int MOVIE_LOADER = 0;
+    private static MovieCursorAdapter mMovieAdapter;
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(MOVIE_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
-    public void onLoaderReset(Loader loader) {
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.i("MainActivityFragment", " onCreateLoader");
 
+        return new CursorLoader(getActivity(),
+                MoviesTable.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
     }
 
-    private static MovieAdapter mMovieAdapter;
-
-
-    public void setMovieAdapter(ArrayList<MovieInfo> moviesObj, Context context) {
-        mMovieAdapter.clear();
-        mMovieAdapter.addAll(moviesObj);
-        mMovieAdapter.notifyDataSetChanged();
-
-//            Log.i("MainActivityFrag Trail", "true");
-//            GetTrailer trailer = new GetTrailer(mContext);
-//            trailer.GetTrailer();
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mMovieAdapter.swapCursor(cursor);
     }
 
-    public MovieAdapter getMovieAdapter() {
-        return mMovieAdapter;
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mMovieAdapter.swapCursor(null);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,25 +95,28 @@ public class MainActivityFragment extends FragmentActivity implements LoaderMana
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Cursor cur = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI, null, null, null, null);
+
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        mMovieAdapter = new MovieAdapter(getActivity(), new ArrayList<MovieInfo>());
+
+        mMovieAdapter = new MovieCursorAdapter(getActivity(), cur, 0);
 
         // Get a reference to the GridView, and attach this adapter to it.
         GridView gridView = (GridView) rootView.findViewById(R.id.movies_grid);
         gridView.setAdapter(mMovieAdapter);
 
         // Creating the intent to launch detailed view
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-
-                MovieInfo movieObj = mMovieAdapter.getItem(position);
-                Context context = getActivity();
-                Intent detailIntent = new Intent(context, DetailActivity.class);
-                detailIntent.putExtra("movie", movieObj);
-                startActivity(detailIntent);
-            }
-        });
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View v,
+//                                    int position, long id) {
+//
+//                MovieInfo movieObj = mMovieAdapter.getItem(position);
+//                Context context = getActivity();
+//                Intent detailIntent = new Intent(context, DetailActivity.class);
+//                detailIntent.putExtra("movie", movieObj);
+//                startActivity(detailIntent);
+//            }
+//        });
         return rootView;
     }
 
