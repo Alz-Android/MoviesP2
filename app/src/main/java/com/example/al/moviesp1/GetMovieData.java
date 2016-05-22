@@ -1,7 +1,9 @@
 package com.example.al.moviesp1;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import java.util.ArrayList;
 import API.MovieApi;
 import API.ServiceGenerator;
@@ -20,74 +22,91 @@ import models.MovieList;
  */
 public class GetMovieData extends AppCompatActivity {
 
+    private Context mContext;
+    private MainActivityFragment mainActivityFragment = new MainActivityFragment();
     ArrayList<MovieInfo> movieInfoList = new ArrayList<>();
 
-    public void updateMovies(String sortOrder)
-    {
+    public GetMovieData(Context context) {
+        mContext = context;
+    }
+
+    public void updateMovies() {
         Log.i("sort1", "update1");
+
+
         movieInfoList.clear();
-        Log.i("sort1", "update1a");
+        String[] args = new String[]{"false"};
+        mContext.getContentResolver().delete(MoviesTable.CONTENT_URI, "favorite=?", args);
+
 
         MovieApi movieService = ServiceGenerator.createService(MovieApi.class);
         String apiKey = BuildConfig.MOVIES_TMDB_API_KEY;
-        Log.i("sort1", sortOrder + " "+ apiKey);
-        Call<MovieList> call = movieService.MOVIE_LIST_CALL(sortOrder, apiKey);
-        Log.i("sort1", "update11");
 
-        call.enqueue(new Callback<MovieList>() {
-            @Override
-            public void onResponse(Call<MovieList> call, Response<MovieList> response) {
-                if (response.isSuccess()) {
-                    Log.i("sort1", "update2");
-                    for(int i = 0; i < response.body().results.size(); i++) {
-                        Log.i("sort1", "update3");
-   //                     RealmDbObjects.MovieJSON movie = (RealmDbObjects.MovieJSON)response.body().results.get(i);
+//         getResources().getStringArray(R.array.pref_sort_order_values);
 
-                        MovieJSON movie = (MovieJSON) response.body().results.get(i);
+        String[] sortOrders = {"popularity.desc","vote_average.desc"};
 
-                        Log.i("sort1", "update4");
+        for(int i = 0 ; i<=1 ; i++){
 
-                        movieInfoList.add(new MovieInfo(
-                                        movie.id.toString(),
-                                        movie.posterPath,
-                                        movie.title,
-                                        movie.overview,
-                                        movie.voteAverage.toString(),
-                                        movie.popularity.toString(),
-                                        movie.releaseDate.toString()
-                                )
-                        );
 
-                        Log.i("sort1", " update5");
-                        DBMovieTable movieRow = new DBMovieTable(
-                                movie.id,
-                                movie.posterPath,
-                                movie.title,
-                                movie.overview,
-                                movie.voteAverage,
-                                movie.popularity,
-                                movie.releaseDate
-                        );
+            Call<MovieList> call = movieService.MOVIE_LIST_CALL(String.valueOf(sortOrders[i]), apiKey);
+            Log.i("sort1", "update11");
 
-                    //      dummy data to check insert
-                   //     DBMovieTable movieRow = new DBMovieTable(1,"a", "b", "c", 2.0F, 3.0F, "d");
-                        getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
-                        Log.i("sort1", " update6");
+            call.enqueue(new Callback<MovieList>() {
+                @Override
+                public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+                    Log.i("sort1", "update112");
+                    if (response.isSuccess()) {
+                        Log.i("sort1", "update2");
+                        for (int i = 0; i < response.body().results.size(); i++) {
+                            Log.i("sort1", "update3xx");
+                            MovieJSON movie = (MovieJSON) response.body().results.get(i);
+                            Log.i("sortid", "update4");
 
+                            Log.i("sortid", movie.id.toString());
+
+                            movieInfoList.add(new MovieInfo(
+                                            movie.id.toString(),
+                                            movie.posterPath,
+                                            movie.title,
+                                            movie.overview,
+                                            movie.voteAverage.toString(),
+                                            movie.popularity.toString(),
+                                            movie.releaseDate.toString()
+                                    )
+                            );
+
+                            Log.i("sortid", " update5");
+
+                            DBMovieTable movieRow = new DBMovieTable(
+                                    "false",
+                                    movie.id.toString(),
+                                    movie.posterPath,
+                                    movie.title,
+                                    movie.overview,
+                                    movie.voteAverage.toString(),
+                                    movie.popularity.toString(),
+                                    movie.releaseDate.toString()
+                            );
+
+                            mContext.getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow, false));
+                        }
+                        Log.i("sort1", response.headers().toString());
+
+ //                       mainActivityFragment.setMovieAdapter(movieInfoList, mContext);
+                    } else {
+                        Log.i("sort1", "update Error");
+                        // error response, no access to resource?
                     }
-                    Log.i("sort1", response.headers().toString());
-
-                    MainActivityFragment.setMovieAdapter(movieInfoList);
-                } else {
-                    Log.i("sort1", "update Error");
-                    // error response, no access to resource?
                 }
-            }
-            @Override
-            public void onFailure(Call<MovieList> call, Throwable t) {
-                // something went completely south (like no internet connection)
-                Log.d("sort1", t.getMessage());
-            }
-        });
+
+                @Override
+                public void onFailure(Call<MovieList> call, Throwable t) {
+                    // something went completely south (like no internet connection)
+                    Log.d("sort1", t.getMessage());
+                }
+            });
+
+        }
     }
 }

@@ -2,9 +2,11 @@ package com.example.al.moviesp1;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ToggleButton;
 
 public class DetailActivityFragment extends Fragment {
 
@@ -17,4 +19,6 @@ public class DetailActivityFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail_activity, container, false);
     }
+
+
 }
