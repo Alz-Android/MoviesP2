@@ -25,8 +25,8 @@ public class DBMovieTable {
     }
 
 
-    @SimpleSQLColumn(value="_id", primary = true)
-    public int _id;
+//    @SimpleSQLColumn(value="_id", primary = true)
+//    public int _id;
 
     @SimpleSQLColumn("favorite")
     public String mFavorite;

@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import java.util.ArrayList;
 
+import models.DBMovieTable;
 import models.MoviesTable;
 
 /**
@@ -95,28 +96,32 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Cursor cur = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI, null, null, null, null);
+        Cursor cursor = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI, null, null, null, null);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        mMovieAdapter = new MovieCursorAdapter(getActivity(), cur, 0);
+        mMovieAdapter = new MovieCursorAdapter(getActivity(), cursor, 0);
 
         // Get a reference to the GridView, and attach this adapter to it.
         GridView gridView = (GridView) rootView.findViewById(R.id.movies_grid);
         gridView.setAdapter(mMovieAdapter);
 
         // Creating the intent to launch detailed view
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View v,
-//                                    int position, long id) {
-//
-//                MovieInfo movieObj = mMovieAdapter.getItem(position);
-//                Context context = getActivity();
-//                Intent detailIntent = new Intent(context, DetailActivity.class);
-//                detailIntent.putExtra("movie", movieObj);
-//                startActivity(detailIntent);
-//            }
-//        });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                Log.i("MainActivityFragment", Integer.toString(position));
+                Log.i("MainActivityFragment", mMovieAdapter.getItem(position).toString());
+
+                MovieInfo movieObj = (MovieInfo)mMovieAdapter.getItem(position);
+
+                Context context = getActivity();
+                Intent detailIntent = new Intent(context, DetailActivity.class);
+                detailIntent.putExtra("movie", movieObj);
+                startActivity(detailIntent);
+            }
+        });
         return rootView;
     }
 

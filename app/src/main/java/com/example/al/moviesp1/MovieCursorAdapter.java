@@ -2,6 +2,7 @@ package com.example.al.moviesp1;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import models.MoviesTable;
 
 /**
  * Created by Al on 2016-05-19.
@@ -37,12 +40,14 @@ public class MovieCursorAdapter extends CursorAdapter {
         // we'll keep the UI functional with a simple (and slow!) binding.
 
         ImageView imageView = (ImageView) view.findViewById(R.id.movie_image);
-        imageView.setBackgroundResource(R.drawable.user_placeholder_error);
+//        imageView.setBackgroundResource(R.drawable.user_placeholder_error);
 
-//        Picasso.with(context)
-//                .load("http://image.tmdb.org/t/p/w185/" + this.getItem(position).mPosterPath)
-//                .placeholder(R.drawable.user_placeholder)
-//                .error(R.drawable.user_placeholder_error)
-//                .into(imageView);
+        Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("poster_path")));
+
+                Picasso.with(context)
+                .load("http://image.tmdb.org/t/p/w185/" + cursor.getString(cursor.getColumnIndex("poster_path")))
+                .placeholder(R.drawable.user_placeholder)
+                .error(R.drawable.user_placeholder_error)
+                .into(imageView);
     }
 }
