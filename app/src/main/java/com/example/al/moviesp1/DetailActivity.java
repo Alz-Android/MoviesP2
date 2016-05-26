@@ -37,8 +37,8 @@ public class DetailActivity extends AppCompatActivity {
 
     public static class PlaceholderFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-        private static final int MOVIE_LOADER = 1;
-        private static MovieCursorAdapter mMovieAdapter;
+        private static final int MOVIE_LOADER = 0;
+//        private static MovieCursorAdapter mMovieAdapter;
 
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
@@ -60,12 +60,12 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-            mMovieAdapter.swapCursor(cursor);
+     //       MainActivityFragment.mMovieAdapter.swapCursor(cursor);
         }
 
         @Override
         public void onLoaderReset(Loader<Cursor> loader) {
-            mMovieAdapter.swapCursor(null);
+    //        MainActivityFragment.mMovieAdapter.swapCursor(null);
         }
 
         public PlaceholderFragment() {
@@ -85,35 +85,35 @@ public class DetailActivity extends AppCompatActivity {
 
                 Log.i("DetailActivity", " onCreateView2");
 
-                final String movieId = intent.getParcelableExtra("movie");
-                final String[] arrMovieId = new String[] {movieId};
+                final String movieId = intent.getStringExtra("movie");
+                final String[] movieIdSelectionArg = new String[] {movieId};
 
-                final String[] projection = { MoviesTable.TABLE_NAME ,
+                final String[] MOVIE_COLUMNS = { MoviesTable.FIELD_TITLE ,
                                                 MoviesTable.FIELD_OVERVIEW,
                                                 MoviesTable.FIELD_POSTER_PATH,
                                                 MoviesTable.FIELD_RELEASEDATE,
                                                 MoviesTable.FIELD_VOTEAVERAGE };
 
-                Log.i("DetailActivity", " onCreateView3");
+                final Cursor cursor = getActivity().getContentResolver().query(
+                        MoviesTable.CONTENT_URI,
+                        MOVIE_COLUMNS, MoviesTable.FIELD_ID + " = ?",
+                        movieIdSelectionArg,
+                        null);
 
-                final Cursor cursor = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI,
-                                                                                projection,
-                                                                                MoviesTable.FIELD_ID,
-                                                                                arrMovieId,
-                                                                                null);
+                cursor.moveToFirst();
+                Log.i("DetailActivity", cursor.getString(2));
 
-                Log.i("DetailActivity", " onCreateView4");
+                ((TextView)rootView.findViewById(R.id.title_text)).setText(cursor.getString(0));
+                ((TextView)rootView.findViewById(R.id.plot_text)).setText(cursor.getString(1));
+                ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(3));
+                ((TextView)rootView.findViewById(R.id.userRating_text)).setText(cursor.getString(4));
 
-                ((TextView)rootView.findViewById(R.id.title_text)).setText(cursor.getString(cursor.getColumnIndex("title")));
-                ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(cursor.getColumnIndex("releaseDate")));
-                ((TextView)rootView.findViewById(R.id.userRating_text)).setText(cursor.getString(cursor.getColumnIndex("voteAverage")));
-                ((TextView)rootView.findViewById(R.id.plot_text)).setText(cursor.getString(cursor.getColumnIndex("overview")));
 // //               ((TextView)rootView.findViewById(R.id.review_text)).setText(movieObj.mReviews);
 //
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_image);
 
                 Picasso.with(getContext())
-                        .load("http://image.tmdb.org/t/p/w185/" + cursor.getString(cursor.getColumnIndex("poster_path")))
+                        .load("http://image.tmdb.org/t/p/w185/" + cursor.getString(2))
                         .placeholder(R.drawable.user_placeholder)
                         .error(R.drawable.user_placeholder_error)
                         .into(imageView);

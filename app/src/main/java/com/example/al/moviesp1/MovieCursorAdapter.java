@@ -42,7 +42,7 @@ public class MovieCursorAdapter extends CursorAdapter {
         ImageView imageView = (ImageView) view.findViewById(R.id.movie_image);
 //        imageView.setBackgroundResource(R.drawable.user_placeholder_error);
 
-        Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("poster_path")));
+ //       Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("poster_path")));
 
                 Picasso.with(context)
                 .load("http://image.tmdb.org/t/p/w185/" + cursor.getString(cursor.getColumnIndex("poster_path")))
