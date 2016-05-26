@@ -28,7 +28,6 @@ import models.MoviesTable;
  */
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-
 //    private static MovieAdapter mMovieAdapter;
     private static final int MOVIE_LOADER = 0;
     private static MovieCursorAdapter mMovieAdapter;
@@ -96,7 +95,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Cursor cursor = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI, null, null, null, null);
+        final Cursor cursor = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI, null, null, null, null);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -111,14 +110,18 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                Log.i("MainActivityFragment", Integer.toString(position));
-                Log.i("MainActivityFragment", mMovieAdapter.getItem(position).toString());
+     //           cursor.moveToFirst();
 
-                MovieInfo movieObj = (MovieInfo)mMovieAdapter.getItem(position);
+                Cursor cursor1 = (Cursor) mMovieAdapter.getItem(position);
+
+                Log.i("MainActivityFragment", Integer.toString(position));
+                Log.i("MainActivityFragment", cursor1.getString(cursor.getColumnIndex("id")));
+
+                String movieId = cursor1.getString(cursor1.getColumnIndex("id"));
 
                 Context context = getActivity();
                 Intent detailIntent = new Intent(context, DetailActivity.class);
-                detailIntent.putExtra("movie", movieObj);
+                detailIntent.putExtra("movie", movieId);
                 startActivity(detailIntent);
             }
         });

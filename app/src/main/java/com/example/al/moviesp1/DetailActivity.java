@@ -1,9 +1,13 @@
 package com.example.al.moviesp1;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,7 +35,38 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+
+        private static final int MOVIE_LOADER = 1;
+        private static MovieCursorAdapter mMovieAdapter;
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            getLoaderManager().initLoader(MOVIE_LOADER, null, this);
+            super.onActivityCreated(savedInstanceState);
+        }
+
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+            Log.i("DetailActivity", " onCreateLoader");
+
+            return new CursorLoader(getActivity(),
+                    MoviesTable.CONTENT_URI,
+                    null,
+                    null,
+                    null,
+                    null);
+        }
+
+        @Override
+        public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+            mMovieAdapter.swapCursor(cursor);
+        }
+
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+            mMovieAdapter.swapCursor(null);
+        }
 
         public PlaceholderFragment() {
         }
@@ -41,21 +76,44 @@ public class DetailActivity extends AppCompatActivity {
                                  Bundle savedInstanceState) {
             // Creating the intent to rcv data from the Main Activity
             // and attaching the data to the appropriate Views in Detail Activity
+            Log.i("DetailActivity", " onCreateView1");
+
             Intent intent = getActivity().getIntent();
             final View rootView = inflater.inflate(R.layout.fragment_detail_activity, container, false);
 
             if(intent != null) {
-                final MovieInfo movieObj = (MovieInfo)intent.getParcelableExtra("movie");
-                ((TextView)rootView.findViewById(R.id.title_text)).setText(movieObj.mTitle);
-                ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(movieObj.mReleaseDate);
-                ((TextView)rootView.findViewById(R.id.userRating_text)).setText(movieObj.mUserRating);
-                ((TextView)rootView.findViewById(R.id.plot_text)).setText(movieObj.mPlot);
- //               ((TextView)rootView.findViewById(R.id.review_text)).setText(movieObj.mReviews);
 
+                Log.i("DetailActivity", " onCreateView2");
+
+                final String movieId = intent.getParcelableExtra("movie");
+                final String[] arrMovieId = new String[] {movieId};
+
+                final String[] projection = { MoviesTable.TABLE_NAME ,
+                                                MoviesTable.FIELD_OVERVIEW,
+                                                MoviesTable.FIELD_POSTER_PATH,
+                                                MoviesTable.FIELD_RELEASEDATE,
+                                                MoviesTable.FIELD_VOTEAVERAGE };
+
+                Log.i("DetailActivity", " onCreateView3");
+
+                final Cursor cursor = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI,
+                                                                                projection,
+                                                                                MoviesTable.FIELD_ID,
+                                                                                arrMovieId,
+                                                                                null);
+
+                Log.i("DetailActivity", " onCreateView4");
+
+                ((TextView)rootView.findViewById(R.id.title_text)).setText(cursor.getString(cursor.getColumnIndex("title")));
+                ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(cursor.getColumnIndex("releaseDate")));
+                ((TextView)rootView.findViewById(R.id.userRating_text)).setText(cursor.getString(cursor.getColumnIndex("voteAverage")));
+                ((TextView)rootView.findViewById(R.id.plot_text)).setText(cursor.getString(cursor.getColumnIndex("overview")));
+// //               ((TextView)rootView.findViewById(R.id.review_text)).setText(movieObj.mReviews);
+//
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_image);
 
                 Picasso.with(getContext())
-                        .load("http://image.tmdb.org/t/p/w185/" + movieObj.mPosterPath)
+                        .load("http://image.tmdb.org/t/p/w185/" + cursor.getString(cursor.getColumnIndex("poster_path")))
                         .placeholder(R.drawable.user_placeholder)
                         .error(R.drawable.user_placeholder_error)
                         .into(imageView);
@@ -69,18 +127,18 @@ public class DetailActivity extends AppCompatActivity {
                         if(tB.isChecked()){
                             Log.i("DetailActivityFragment", " Yes");
 
-                            DBMovieTable movieRow = new DBMovieTable(
-                                    "true",
-                                    movieObj.mId,
-                                    movieObj.mPosterPath,
-                                    movieObj.mTitle,
-                                    movieObj.mPlot,
-                                    movieObj.mUserRating,
-                                    movieObj.mPopularity,
-                                    movieObj.mReleaseDate
-                            );
-
-                            getContext().getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
+//                            DBMovieTable movieRow = new DBMovieTable(
+//                                    "true",
+//                                    movieObj.mId,
+//                                    movieObj.mPosterPath,
+//                                    movieObj.mTitle,
+//                                    movieObj.mPlot,
+//                                    movieObj.mUserRating,
+//                                    movieObj.mPopularity,
+//                                    movieObj.mReleaseDate
+//                            );
+//
+//                            getContext().getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
 
                         }
                         else
