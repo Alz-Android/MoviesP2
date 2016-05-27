@@ -25,9 +25,6 @@ public class DBMovieTable {
     }
 
 
-//    @SimpleSQLColumn(value="_id", primary = true)
-//    public int _id;
-
     @SimpleSQLColumn("favorite")
     public String mFavorite;
 
@@ -51,4 +48,7 @@ public class DBMovieTable {
 
     @SimpleSQLColumn("voteAverage")
     public String mUserRating;
+
+    @SimpleSQLColumn("popular")
+    public String mPopular;
 }

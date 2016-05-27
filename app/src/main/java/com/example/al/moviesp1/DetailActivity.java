@@ -86,34 +86,37 @@ public class DetailActivity extends AppCompatActivity {
                 Log.i("DetailActivity", " onCreateView2");
 
                 final String movieId = intent.getStringExtra("movie");
-                final String[] movieIdSelectionArg = new String[] {movieId};
 
-                final String[] MOVIE_COLUMNS = { MoviesTable.FIELD_TITLE ,
-                                                MoviesTable.FIELD_OVERVIEW,
-                                                MoviesTable.FIELD_POSTER_PATH,
-                                                MoviesTable.FIELD_RELEASEDATE,
-                                                MoviesTable.FIELD_VOTEAVERAGE };
+                final String[] MOVIE_COLUMNS = {
+                        MoviesTable.FIELD_POSTER_PATH,
+                        MoviesTable.FIELD_TITLE ,
+                        MoviesTable.FIELD_OVERVIEW,
+                        MoviesTable.FIELD_VOTEAVERAGE,
+                        MoviesTable.FIELD_POPULARITY,
+                        MoviesTable.FIELD_RELEASEDATE
+                };
 
                 final Cursor cursor = getActivity().getContentResolver().query(
                         MoviesTable.CONTENT_URI,
-                        MOVIE_COLUMNS, MoviesTable.FIELD_ID + " = ?",
-                        movieIdSelectionArg,
+                        MOVIE_COLUMNS,
+                        MoviesTable.FIELD_ID + " = ?",
+                        new String[] {movieId},
                         null);
 
                 cursor.moveToFirst();
                 Log.i("DetailActivity", cursor.getString(2));
 
-                ((TextView)rootView.findViewById(R.id.title_text)).setText(cursor.getString(0));
-                ((TextView)rootView.findViewById(R.id.plot_text)).setText(cursor.getString(1));
-                ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(3));
-                ((TextView)rootView.findViewById(R.id.userRating_text)).setText(cursor.getString(4));
+                ((TextView)rootView.findViewById(R.id.title_text)).setText(cursor.getString(1));
+                ((TextView)rootView.findViewById(R.id.plot_text)).setText(cursor.getString(2));
+                ((TextView)rootView.findViewById(R.id.userRating_text)).setText(cursor.getString(3));
+                ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(4));
 
 // //               ((TextView)rootView.findViewById(R.id.review_text)).setText(movieObj.mReviews);
 //
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_image);
 
                 Picasso.with(getContext())
-                        .load("http://image.tmdb.org/t/p/w185/" + cursor.getString(2))
+                        .load("http://image.tmdb.org/t/p/w185/" + cursor.getString(0))
                         .placeholder(R.drawable.user_placeholder)
                         .error(R.drawable.user_placeholder_error)
                         .into(imageView);
@@ -127,18 +130,18 @@ public class DetailActivity extends AppCompatActivity {
                         if(tB.isChecked()){
                             Log.i("DetailActivityFragment", " Yes");
 
-//                            DBMovieTable movieRow = new DBMovieTable(
-//                                    "true",
-//                                    movieObj.mId,
-//                                    movieObj.mPosterPath,
-//                                    movieObj.mTitle,
-//                                    movieObj.mPlot,
-//                                    movieObj.mUserRating,
-//                                    movieObj.mPopularity,
-//                                    movieObj.mReleaseDate
-//                            );
-//
-//                            getContext().getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
+                            DBMovieTable movieRow = new DBMovieTable(
+                                    "true",
+                                    movieId,
+                                    cursor.getString(0),
+                                    cursor.getString(1),
+                                    cursor.getString(2),
+                                    cursor.getString(3),
+                                    cursor.getString(4),
+                                    cursor.getString(5)
+                            );
+
+                            getContext().getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
 
                         }
                         else
