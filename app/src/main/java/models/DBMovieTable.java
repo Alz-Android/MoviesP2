@@ -24,6 +24,8 @@ public class DBMovieTable {
             this.mReleaseDate = "n/a";
     }
 
+    @SimpleSQLColumn(value="_id", primary = true)
+    public int _id;
 
     @SimpleSQLColumn("favorite")
     public String mFavorite;

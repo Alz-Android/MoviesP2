@@ -35,6 +35,8 @@ public class GetMovieData extends AppCompatActivity {
 
 
         movieInfoList.clear();
+
+        // default 'false' flag for movies being favorites
         String[] args = new String[]{"false"};
         mContext.getContentResolver().delete(MoviesTable.CONTENT_URI, "favorite=?", args);
 
@@ -42,7 +44,10 @@ public class GetMovieData extends AppCompatActivity {
         MovieApi movieService = ServiceGenerator.createService(MovieApi.class);
         String apiKey = BuildConfig.MOVIES_TMDB_API_KEY;
 
-//         getResources().getStringArray(R.array.pref_sort_order_values);
+//        Log.i("sort1", getResources().getStringArray(R.array.pref_sort_order_values).toString());
+
+//        getResources(). (R.array.pref_sort_order_values).toString();
+
 
         String[] sortOrders = {"popularity.desc","vote_average.desc"};
 
