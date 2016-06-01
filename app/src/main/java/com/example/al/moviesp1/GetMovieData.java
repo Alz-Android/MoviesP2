@@ -22,8 +22,11 @@ import models.MovieList;
  */
 public class GetMovieData extends AppCompatActivity {
 
+    boolean isPopular;
+
+
     private Context mContext;
-    private MainActivityFragment mainActivityFragment = new MainActivityFragment();
+//    private MainActivityFragment mainActivityFragment = new MainActivityFragment();
     ArrayList<MovieInfo> movieInfoList = new ArrayList<>();
 
     public GetMovieData(Context context) {
@@ -32,7 +35,6 @@ public class GetMovieData extends AppCompatActivity {
 
     public void updateMovies() {
         Log.i("sort1", "update1");
-
 
         movieInfoList.clear();
 
@@ -44,17 +46,10 @@ public class GetMovieData extends AppCompatActivity {
         MovieApi movieService = ServiceGenerator.createService(MovieApi.class);
         String apiKey = BuildConfig.MOVIES_TMDB_API_KEY;
 
-//        Log.i("sort1", getResources().getStringArray(R.array.pref_sort_order_values).toString());
-
-//        getResources(). (R.array.pref_sort_order_values).toString();
-
-
         String[] sortOrders = {"popularity.desc","vote_average.desc"};
 
-        for(int i = 0 ; i<=1 ; i++){
-
-
-            Call<MovieList> call = movieService.MOVIE_LIST_CALL(String.valueOf(sortOrders[i]), apiKey);
+        for(int j = 0 ; j<=1 ; j++){
+            Call<MovieList> call = movieService.MOVIE_LIST_CALL(String.valueOf(sortOrders[j]), apiKey);
             Log.i("sort1", "update11");
 
             call.enqueue(new Callback<MovieList>() {
@@ -91,7 +86,8 @@ public class GetMovieData extends AppCompatActivity {
                                     movie.overview,
                                     movie.voteAverage.toString(),
                                     movie.popularity.toString(),
-                                    movie.releaseDate.toString()
+                                    movie.releaseDate.toString(),
+                                    "false"
                             );
 
                             mContext.getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow, false));
@@ -108,6 +104,7 @@ public class GetMovieData extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<MovieList> call, Throwable t) {
                     // something went completely south (like no internet connection)
+
                     Log.d("sort1", t.getMessage());
                 }
             });

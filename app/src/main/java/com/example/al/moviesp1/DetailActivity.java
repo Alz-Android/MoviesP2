@@ -93,7 +93,8 @@ public class DetailActivity extends AppCompatActivity {
                         MoviesTable.FIELD_OVERVIEW,
                         MoviesTable.FIELD_VOTEAVERAGE,
                         MoviesTable.FIELD_POPULARITY,
-                        MoviesTable.FIELD_RELEASEDATE
+                        MoviesTable.FIELD_RELEASEDATE,
+                        MoviesTable.FIELD_ISPOPULAR
                 };
 
                 final Cursor cursor = getActivity().getContentResolver().query(
@@ -138,7 +139,8 @@ public class DetailActivity extends AppCompatActivity {
                                     cursor.getString(2),
                                     cursor.getString(3),
                                     cursor.getString(4),
-                                    cursor.getString(5)
+                                    cursor.getString(5),
+                                    cursor.getString(6)
                             );
 
                             getContext().getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
