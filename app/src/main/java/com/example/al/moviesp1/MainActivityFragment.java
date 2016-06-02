@@ -45,11 +45,37 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.i("MainActivityFragment", " onCreateLoader");
 
+        final String[] MOVIE_COLUMNS = {
+                MoviesTable.FIELD__ID,
+                MoviesTable.FIELD_ID,
+                MoviesTable.FIELD_POSTER_PATH,
+                MoviesTable.FIELD_TITLE,
+                MoviesTable.FIELD_OVERVIEW,
+                MoviesTable.FIELD_VOTEAVERAGE,
+                MoviesTable.FIELD_POPULARITY,
+                MoviesTable.FIELD_RELEASEDATE,
+                MoviesTable.FIELD_ISPOPULAR
+        };
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
+        Log.i("MainActiv onCreateView", sortOrder);
+
+        if (sortOrder.equals(getString(R.string.pref_sort_order_favorites)) )
+            isFavorite = true;
+        else
+            isFavorite = false;
+
+        if (sortOrder.equals(getString(R.string.pref_sort_order_popularity)) )
+            isPopular = true;
+        else
+            isPopular = false;
+
         return new CursorLoader(getActivity(),
                 MoviesTable.CONTENT_URI,
-                null,
-                null,
-                null,
+                MOVIE_COLUMNS,
+                MoviesTable.FIELD_FAVORITE + " = ?",
+                new String[] {"true"}, //String.valueOf(isPopular)
                 null);
     }
 
@@ -98,42 +124,44 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
-        Log.i("MainActiv onCreateView", sortOrder);
 
-        final String[] MOVIE_COLUMNS = {
-                MoviesTable.FIELD_POSTER_PATH,
-                MoviesTable.FIELD_TITLE ,
-                MoviesTable.FIELD_OVERVIEW,
-                MoviesTable.FIELD_VOTEAVERAGE,
-                MoviesTable.FIELD_POPULARITY,
-                MoviesTable.FIELD_RELEASEDATE,
-                MoviesTable.FIELD_ISPOPULAR
-        };
 
-        if (sortOrder.equals(getString(R.string.pref_sort_order_favorites)) )
-            isFavorite = true;
-        else
-            isFavorite = false;
+//        final String[] MOVIE_COLUMNS = {
+//                MoviesTable.FIELD__ID,
+//                MoviesTable.FIELD_ID,
+//                MoviesTable.FIELD_POSTER_PATH,
+//                MoviesTable.FIELD_TITLE ,
+//                MoviesTable.FIELD_OVERVIEW,
+//                MoviesTable.FIELD_VOTEAVERAGE,
+//                MoviesTable.FIELD_POPULARITY,
+//                MoviesTable.FIELD_RELEASEDATE,
+//                MoviesTable.FIELD_ISPOPULAR
+//        };
+//
+//        if (sortOrder.equals(getString(R.string.pref_sort_order_favorites)) )
+//            isFavorite = true;
+//        else
+//            isFavorite = false;
+//
+//        if (sortOrder.equals(getString(R.string.pref_sort_order_popularity)) )
+//            isPopular = true;
+//        else
+//            isPopular = false;
 
-        if (sortOrder.equals(getString(R.string.pref_sort_order_popularity)) )
-            isPopular = true;
-        else
-            isPopular = false;
+ //       final String popular = "false";
 
 //        final Cursor cursor = getActivity().getContentResolver().query(
 //                MoviesTable.CONTENT_URI,
 //                MOVIE_COLUMNS,
-//                MoviesTable.FIELD_ID + " = ?",
-//                new String[] String.valueOf(isPopular)
+//                MoviesTable.FIELD_FAVORITE + " = ?",
+//                new String[] {"false"}, //String.valueOf(isPopular)
 //                null);
 
         final Cursor cursor = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI, null, null, null, null);
 
-        Log.i("MainActiv onCreateView", "cursor works");
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
+ //       cursor.moveToFirst();
         mMovieAdapter = new MovieCursorAdapter(getActivity(), cursor, 0);
 
         // Get a reference to the GridView, and attach this adapter to it.
@@ -166,9 +194,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private void update() {
         Log.i("MainActivityFrag update", getActivity().toString());
         GetMovieData movieData = new GetMovieData(getActivity());
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
-        Log.i("MainActivityFrag update", sortOrder);
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//        String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
+//        Log.i("MainActivityFrag update", sortOrder);
 
         movieData.updateMovies();
     }

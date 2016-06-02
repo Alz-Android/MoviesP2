@@ -110,7 +110,7 @@ public class DetailActivity extends AppCompatActivity {
                 ((TextView)rootView.findViewById(R.id.title_text)).setText(cursor.getString(1));
                 ((TextView)rootView.findViewById(R.id.plot_text)).setText(cursor.getString(2));
                 ((TextView)rootView.findViewById(R.id.userRating_text)).setText(cursor.getString(3));
-                ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(4));
+                ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(5));
 
 // //               ((TextView)rootView.findViewById(R.id.review_text)).setText(movieObj.mReviews);
 //
