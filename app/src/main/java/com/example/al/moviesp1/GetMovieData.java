@@ -52,6 +52,11 @@ public class GetMovieData extends AppCompatActivity {
             Call<MovieList> call = movieService.MOVIE_LIST_CALL(String.valueOf(sortOrders[j]), apiKey);
             Log.i("sort1", "update11");
 
+//            if (j==0)
+//                isPopular = true;
+//            else
+//            final boolean isPopular = false;
+
             call.enqueue(new Callback<MovieList>() {
                 @Override
                 public void onResponse(Call<MovieList> call, Response<MovieList> response) {
