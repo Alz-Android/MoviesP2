@@ -36,18 +36,13 @@ public class MovieCursorAdapter extends CursorAdapter {
      */
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        // our view is pretty simple here --- just a text view
-        // we'll keep the UI functional with a simple (and slow!) binding.
 
         ImageView imageView = (ImageView) view.findViewById(R.id.movie_image);
-//        imageView.setBackgroundResource(R.drawable.user_placeholder_error);
 
- //       Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("poster_path")));
-
-                Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/w185/" + cursor.getString(cursor.getColumnIndex("poster_path")))
-                .placeholder(R.drawable.user_placeholder)
-                .error(R.drawable.user_placeholder_error)
-                .into(imageView);
+            Picasso.with(context)
+            .load("http://image.tmdb.org/t/p/w185/" + cursor.getString(cursor.getColumnIndex("poster_path")))
+            .placeholder(R.drawable.user_placeholder)
+            .error(R.drawable.user_placeholder_error)
+            .into(imageView);
     }
 }

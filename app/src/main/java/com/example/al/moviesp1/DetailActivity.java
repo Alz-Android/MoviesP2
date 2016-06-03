@@ -38,7 +38,6 @@ public class DetailActivity extends AppCompatActivity {
     public static class PlaceholderFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
         private static final int MOVIE_LOADER = 0;
-//        private static MovieCursorAdapter mMovieAdapter;
 
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {

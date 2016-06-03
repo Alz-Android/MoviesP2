@@ -20,10 +20,7 @@ import models.MovieList;
 /**
  * Created by Al on 1/27/2016.
  */
-public class GetMovieData extends AppCompatActivity {
-
-    boolean isPopular;
-
+public class GetMovieData {
 
     private Context mContext;
 //    private MainActivityFragment mainActivityFragment = new MainActivityFragment();
@@ -42,7 +39,6 @@ public class GetMovieData extends AppCompatActivity {
         String[] args = new String[]{"false"};
         mContext.getContentResolver().delete(MoviesTable.CONTENT_URI, "favorite=?", args);
 
-
         MovieApi movieService = ServiceGenerator.createService(MovieApi.class);
         String apiKey = BuildConfig.MOVIES_TMDB_API_KEY;
 
@@ -52,10 +48,7 @@ public class GetMovieData extends AppCompatActivity {
             Call<MovieList> call = movieService.MOVIE_LIST_CALL(String.valueOf(sortOrders[j]), apiKey);
             Log.i("sort1", "update11");
 
-//            if (j==0)
-//                isPopular = true;
-//            else
-//            final boolean isPopular = false;
+            final String isPopular = (j == 0 ? "true" : "false");
 
             call.enqueue(new Callback<MovieList>() {
                 @Override
@@ -70,19 +63,6 @@ public class GetMovieData extends AppCompatActivity {
 
                             Log.i("sortid", movie.id.toString());
 
-                            movieInfoList.add(new MovieInfo(
-                                            movie.id.toString(),
-                                            movie.posterPath,
-                                            movie.title,
-                                            movie.overview,
-                                            movie.voteAverage.toString(),
-                                            movie.popularity.toString(),
-                                            movie.releaseDate.toString()
-                                    )
-                            );
-
-                            Log.i("sortid", " update5");
-
                             DBMovieTable movieRow = new DBMovieTable(
                                     "false",
                                     movie.id.toString(),
@@ -92,7 +72,7 @@ public class GetMovieData extends AppCompatActivity {
                                     movie.voteAverage.toString(),
                                     movie.popularity.toString(),
                                     movie.releaseDate.toString(),
-                                    "false"
+                                    isPopular
                             );
 
                             mContext.getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow, false));
@@ -113,7 +93,6 @@ public class GetMovieData extends AppCompatActivity {
                     Log.d("sort1", t.getMessage());
                 }
             });
-
         }
     }
 }

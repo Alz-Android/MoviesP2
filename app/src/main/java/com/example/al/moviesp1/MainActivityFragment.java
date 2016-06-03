@@ -45,6 +45,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.i("MainActivityFragment", " onCreateLoader");
 
+        String selection;
+        String[] values;
+
         final String[] MOVIE_COLUMNS = {
                 MoviesTable.FIELD__ID,
                 MoviesTable.FIELD_ID,
@@ -59,29 +62,38 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
-        Log.i("MainActiv onCreateView", sortOrder);
 
-        if (sortOrder.equals(getString(R.string.pref_sort_order_favorites)) )
+        // Distinsuishing the 3 settings: Favorites, Popular, High Rated
+        //
+        if (sortOrder.equals(getString(R.string.pref_sort_order_favorites)) ) {
             isFavorite = true;
-        else
+            selection = MoviesTable.FIELD_FAVORITE + " = ?";
+            values = new String[] {String.valueOf(isFavorite)};
+
+        }else {
             isFavorite = false;
 
-        if (sortOrder.equals(getString(R.string.pref_sort_order_popularity)) )
-            isPopular = true;
-        else
-            isPopular = false;
+            if (sortOrder.equals(getString(R.string.pref_sort_order_popularity)))
+                isPopular = true;
+            else
+                isPopular = false;
 
+            selection = MoviesTable.FIELD_FAVORITE + " = ? and " + MoviesTable.FIELD_ISPOPULAR + " = ?";
+            values = new String[] {String.valueOf(isFavorite), String.valueOf(isPopular)};
+        }
         return new CursorLoader(getActivity(),
                 MoviesTable.CONTENT_URI,
                 MOVIE_COLUMNS,
-                MoviesTable.FIELD_FAVORITE + " = ?",
-                new String[] {"true"}, //String.valueOf(isPopular)
+                selection,
+                values,
                 null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mMovieAdapter.swapCursor(cursor);
+        GetTrailer trailerData = new GetTrailer(getActivity());
+        trailerData.GetTrailer();
     }
 
     @Override
@@ -95,7 +107,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         super.onCreate(savedInstanceState);
         //for this fragment to handle menu events
         setHasOptionsMenu(true);
-
         update();
         Log.i("MainActivityFragment", "  onCreate()");
     }
@@ -115,7 +126,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) {
 
-            update();
+            getLoaderManager().restartLoader(MOVIE_LOADER, null, this);
             Log.i("MainActivityFragment", "onActivityResult()");
         }
     }
@@ -123,40 +134,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
-
-//        final String[] MOVIE_COLUMNS = {
-//                MoviesTable.FIELD__ID,
-//                MoviesTable.FIELD_ID,
-//                MoviesTable.FIELD_POSTER_PATH,
-//                MoviesTable.FIELD_TITLE ,
-//                MoviesTable.FIELD_OVERVIEW,
-//                MoviesTable.FIELD_VOTEAVERAGE,
-//                MoviesTable.FIELD_POPULARITY,
-//                MoviesTable.FIELD_RELEASEDATE,
-//                MoviesTable.FIELD_ISPOPULAR
-//        };
-//
-//        if (sortOrder.equals(getString(R.string.pref_sort_order_favorites)) )
-//            isFavorite = true;
-//        else
-//            isFavorite = false;
-//
-//        if (sortOrder.equals(getString(R.string.pref_sort_order_popularity)) )
-//            isPopular = true;
-//        else
-//            isPopular = false;
-
- //       final String popular = "false";
-
-//        final Cursor cursor = getActivity().getContentResolver().query(
-//                MoviesTable.CONTENT_URI,
-//                MOVIE_COLUMNS,
-//                MoviesTable.FIELD_FAVORITE + " = ?",
-//                new String[] {"false"}, //String.valueOf(isPopular)
-//                null);
-
         final Cursor cursor = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI, null, null, null, null);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -186,6 +163,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 Intent detailIntent = new Intent(context, DetailActivity.class);
                 detailIntent.putExtra("movie", movieId);
                 startActivity(detailIntent);
+                cursor.close();
+                cursor1.close();
             }
         });
         return rootView;
