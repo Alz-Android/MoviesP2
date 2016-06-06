@@ -24,10 +24,14 @@ import models.MoviesTable;
 
 public class DetailActivity extends AppCompatActivity {
 
+    static View rootView;
+    static String mTrailerPath=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -78,13 +82,18 @@ public class DetailActivity extends AppCompatActivity {
             Log.i("DetailActivity", " onCreateView1");
 
             Intent intent = getActivity().getIntent();
-            final View rootView = inflater.inflate(R.layout.fragment_detail_activity, container, false);
+            rootView = inflater.inflate(R.layout.fragment_detail_activity, container, false);
 
             if(intent != null) {
 
                 Log.i("DetailActivity", " onCreateView2");
 
                 final String movieId = intent.getStringExtra("movie");
+
+                // Get Reviews and trailers, trailer button shoudl appear once data available (call back)
+
+                GetTrailer trailerData = new GetTrailer();
+                trailerData.GetTrailer(movieId);
 
                 final String[] MOVIE_COLUMNS = {
                         MoviesTable.FIELD_POSTER_PATH,
@@ -111,8 +120,6 @@ public class DetailActivity extends AppCompatActivity {
                 ((TextView)rootView.findViewById(R.id.userRating_text)).setText(cursor.getString(3));
                 ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(5));
 
-// //               ((TextView)rootView.findViewById(R.id.review_text)).setText(movieObj.mReviews);
-//
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_image);
 
                 Picasso.with(getContext())
@@ -141,33 +148,29 @@ public class DetailActivity extends AppCompatActivity {
                                     cursor.getString(5),
                                     cursor.getString(6)
                             );
-
                             getContext().getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
-
                         }
                         else
                             Log.i("DetailActivityFragment", " No");
-
-
                     }
                 });
 
-//                (rootView.findViewById(R.id.trailer_text)).setOnClickListener(new View.OnClickListener(){
-//                    @Override
-//                    public void onClick(View view) {
-//                        if(movieObj.mTrailerPath0 != null)
-//                                    LauncheTrailer(movieObj.mTrailerPath0);
-//                                else
-//                                    ((TextView)rootView.findViewById(R.id.trailer_text)).setText("Trailer Not Available");
-//                    }
-//                });
+                (rootView.findViewById(R.id.trailer_text)).setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View view) {
+                        if(mTrailerPath != null)
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+mTrailerPath)));
+                       // else
+                           // ((TextView)rootView.findViewById(R.id.trailer_text)).setText("Trailer Not Available");
+                    }
+                });
             }
             return rootView;
         }
-        private void LauncheTrailer(String trailerPath) {
-
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+trailerPath)));
-        }
+//        private void LauncheTrailer(String trailerPath) {
+//
+//            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+trailerPath)));
+//        }
 
         public interface FragmentCallback {
             public void onTaskDone();

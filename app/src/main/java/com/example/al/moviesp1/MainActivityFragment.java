@@ -35,6 +35,10 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private boolean isFavorite;
     private boolean isPopular;
 
+    public static MovieCursorAdapter getMovieAdapter() {
+        return mMovieAdapter;
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(MOVIE_LOADER, null, this);
@@ -92,8 +96,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mMovieAdapter.swapCursor(cursor);
-        GetTrailer trailerData = new GetTrailer(getActivity());
-        trailerData.GetTrailer();
     }
 
     @Override
@@ -163,8 +165,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 Intent detailIntent = new Intent(context, DetailActivity.class);
                 detailIntent.putExtra("movie", movieId);
                 startActivity(detailIntent);
-                cursor.close();
-                cursor1.close();
+//                cursor.close();
+//                cursor1.close();
             }
         });
         return rootView;
