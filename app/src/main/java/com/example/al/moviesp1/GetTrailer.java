@@ -60,7 +60,7 @@ public class GetTrailer {
                     }
 
                     if (mMovieReviews != null)
-                        ((TextView) DetailActivity.rootView.findViewById(R.id.review_text)).setText(mMovieReviews.get(0));
+                        DetailActivity.mReviews = mMovieReviews.get(0);
 
                 } else {
                     Log.i("sort1z", "update4z");

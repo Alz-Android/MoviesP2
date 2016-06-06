@@ -26,6 +26,7 @@ public class DetailActivity extends AppCompatActivity {
 
     static View rootView;
     static String mTrailerPath=null;
+    static String mReviews=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +121,9 @@ public class DetailActivity extends AppCompatActivity {
                 ((TextView)rootView.findViewById(R.id.userRating_text)).setText(cursor.getString(3));
                 ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(5));
 
+
+                ((TextView)rootView.findViewById(R.id.review_text)).setText(mReviews);
+
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_image);
 
                 Picasso.with(getContext())
@@ -160,8 +164,8 @@ public class DetailActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         if(mTrailerPath != null)
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+mTrailerPath)));
-                       // else
-                           // ((TextView)rootView.findViewById(R.id.trailer_text)).setText("Trailer Not Available");
+                        else
+                            ((TextView)rootView.findViewById(R.id.trailer_text)).setText("Trailer Not Available");
                     }
                 });
             }
