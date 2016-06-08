@@ -35,7 +35,7 @@ public class DetailActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.detail_container, new PlaceholderFragment())
                     .commit();
         }
     }
@@ -54,7 +54,8 @@ public class DetailActivity extends AppCompatActivity {
         public Loader<Cursor> onCreateLoader(int id, Bundle args) {
             Log.i("DetailActivity", " onCreateLoader");
 
-            return new CursorLoader(getActivity(),
+            return new CursorLoader(
+                    getActivity(),
                     MoviesTable.CONTENT_URI,
                     null,
                     null,
@@ -120,9 +121,6 @@ public class DetailActivity extends AppCompatActivity {
                 ((TextView)rootView.findViewById(R.id.plot_text)).setText(cursor.getString(2));
                 ((TextView)rootView.findViewById(R.id.userRating_text)).setText(cursor.getString(3));
                 ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(5));
-
-
-     //           ((TextView)rootView.findViewById(R.id.review_text)).setText(mReviews);
 
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_image);
 

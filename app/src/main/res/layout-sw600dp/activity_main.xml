@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,8 +23,6 @@
     <!--
 This layout is a two-pane layout for the Items master/detail flow.
 -->
-
-
     <GridView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -38,15 +37,15 @@ This layout is a two-pane layout for the Items master/detail flow.
         android:id="@+id/movies_grid">
     </GridView>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/container"
+        android:id="@+id/fragment_forecast"
+        android:name="com.example.al.moviesp1.MainActivityFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.al.moviesp1.DetailActivity"
-        tools:ignore="MergeRootFrame" />
-
-
-
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        tools:context="com.example.al.moviesp1.MainActivityFragment"
+        tools:layout="@android:layout/list_content" />
 
 </android.support.design.widget.CoordinatorLayout>
