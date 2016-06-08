@@ -24,12 +24,16 @@ public class MainActivity extends AppCompatActivity {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
+
+            Log.i("main", "mTwoPane = true");
+
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.detail_container, new DetailActivity.PlaceholderFragment(), DETAILFRAGMENT_TAG)
                         .commit();
             }
         } else {
+            Log.i("main", "mTwoPane = false");
             mTwoPane = false;
         }
     }
