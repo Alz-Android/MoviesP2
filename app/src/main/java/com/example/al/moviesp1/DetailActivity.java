@@ -122,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
                 ((TextView)rootView.findViewById(R.id.releaseDate_text)).setText(cursor.getString(5));
 
 
-                ((TextView)rootView.findViewById(R.id.review_text)).setText(mReviews);
+     //           ((TextView)rootView.findViewById(R.id.review_text)).setText(mReviews);
 
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.movie_image);
 

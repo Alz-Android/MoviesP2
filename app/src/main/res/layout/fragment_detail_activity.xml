@@ -95,8 +95,8 @@
             android:layout_below="@+id/trailer_text"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_marginBottom="15sp"
             android:textIsSelectable="true" />
-
 
     </RelativeLayout>
 </ScrollView>

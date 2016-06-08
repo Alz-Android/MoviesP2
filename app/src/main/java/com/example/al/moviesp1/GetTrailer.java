@@ -36,11 +36,14 @@ public class GetTrailer {
     }
 
     static ArrayList<String> mYoutubeKeys = new ArrayList<>();
-    static ArrayList<String> mMovieReviews = new ArrayList<String>();
+    static ArrayList<String> mMovieReviews = new ArrayList<>();
 
     private DetailActivity.PlaceholderFragment.FragmentCallback mFragmentCallback;
 
     public void GetTrailer(String movieId) {
+
+        mYoutubeKeys.clear();
+        mMovieReviews.clear();
 
         Call<TrailerList> callTrailer = trailerService.TRAILER_CALL(
                 movieId, apiKey);
@@ -58,13 +61,13 @@ public class GetTrailer {
                         mMovieReviews.add(response.body().results.get(j).content);
                         Log.i("sort1z", response.body().results.get(j).content);
                     }
-
-                    if (mMovieReviews != null)
-                        DetailActivity.mReviews = mMovieReviews.get(0);
+                    if (mMovieReviews.size() > 0)
+                        ((TextView) DetailActivity.rootView.findViewById(R.id.review_text)).setText(mMovieReviews.get(0));
+                    else
+                        ((TextView) DetailActivity.rootView.findViewById(R.id.review_text)).setText("No reviews available");
 
                 } else {
                     Log.i("sort1z", "update4z");
-                    // error response, no access to resource?
                 }
             }
 
