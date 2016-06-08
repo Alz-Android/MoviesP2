@@ -1,14 +1,15 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_forecast"
-    android:name="com.example.al.moviesp1.MainActivityFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    tools:context="com.example.al.moviesp1.MainActivityFragment">
-<!--    tools:layout="@android:layout/list_content">
--->
+    android:baselineAligned="false"
+    android:divider="?android:attr/dividerHorizontal"
+    android:orientation="horizontal"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.al.moviesp1.MainActivity">
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,4 +19,20 @@
 
     <include layout="@layout/content_main" />
 
-</fragment>
+    <!--
+This layout is a two-pane layout for the Items master/detail flow.
+-->
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_main"
+        android:name="com.example.al.moviesp1.MainActivityFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        tools:context="com.example.al.moviesp1.MainActivityFragment"
+        tools:layout="@android:layout/list_content" />
+
+
+</android.support.design.widget.CoordinatorLayout>
