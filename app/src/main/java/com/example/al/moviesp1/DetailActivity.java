@@ -86,7 +86,7 @@ public class DetailActivity extends AppCompatActivity {
             Intent intent = getActivity().getIntent();
             rootView = inflater.inflate(R.layout.fragment_detail_activity, container, false);
 
-            if(intent != null) {
+            if(intent.hasExtra("movie")) {
 
                 Log.i("DetailActivity", " onCreateView2");
 

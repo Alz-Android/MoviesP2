@@ -136,7 +136,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
- //       cursor.moveToFirst();
         mMovieAdapter = new MovieCursorAdapter(getActivity(), cursor, 0);
 
         // Get a reference to the GridView, and attach this adapter to it.
@@ -147,8 +146,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-
-     //           cursor.moveToFirst();
 
                 Cursor cursor1 = (Cursor) mMovieAdapter.getItem(position);
 
@@ -161,8 +158,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 Intent detailIntent = new Intent(context, DetailActivity.class);
                 detailIntent.putExtra("movie", movieId);
                 startActivity(detailIntent);
-//                cursor.close();
-//                cursor1.close();
             }
         });
         return rootView;
