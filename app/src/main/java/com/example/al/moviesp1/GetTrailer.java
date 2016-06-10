@@ -31,14 +31,14 @@ public class GetTrailer {
 //        return mYoutubeKeys;
 //    }
 
-    public static ArrayList<String> getmMovieReviews() {
-        return mMovieReviews;
-    }
+//    public static ArrayList<String> getmMovieReviews() {
+//        return mMovieReviews;
+//    }
 
     static ArrayList<String> mYoutubeKeys = new ArrayList<>();
     static ArrayList<String> mMovieReviews = new ArrayList<>();
 
-    private DetailActivity.PlaceholderFragment.FragmentCallback mFragmentCallback;
+//    private DetailActivity.PlaceholderFragment.FragmentCallback mFragmentCallback;
 
     public void GetTrailer(String movieId) {
 
@@ -88,7 +88,7 @@ public class GetTrailer {
                         mYoutubeKeys.add(response.body().results.get(j).key);
                         Log.i("sort1z", response.body().results.get(j).key);
                     }
-                    if (mYoutubeKeys != null)
+                    if (mYoutubeKeys.size() > 0)
                         DetailActivity.mTrailerPath = mYoutubeKeys.get(0);
 
                 } else {

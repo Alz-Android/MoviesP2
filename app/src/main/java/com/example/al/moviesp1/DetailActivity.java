@@ -26,7 +26,7 @@ public class DetailActivity extends AppCompatActivity {
 
     static View rootView;
     static String mTrailerPath=null;
-    static String mReviews=null;
+//    static String mReviews=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +89,7 @@ public class DetailActivity extends AppCompatActivity {
             if(intent.hasExtra("movie")) {
 
                 Log.i("DetailActivity", " onCreateView2");
+                Log.i("DetailActivity", container.toString());
 
                 final String movieId = intent.getStringExtra("movie");
 
@@ -169,14 +170,10 @@ public class DetailActivity extends AppCompatActivity {
             }
             return rootView;
         }
-//        private void LauncheTrailer(String trailerPath) {
-//
-//            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+trailerPath)));
-//        }
 
-        public interface FragmentCallback {
-            public void onTaskDone();
-        }
+//        public interface FragmentCallback {
+//            public void onTaskDone();
+//        }
 
     }
 }

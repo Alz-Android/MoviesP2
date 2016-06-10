@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,29 +10,17 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.al.moviesp1.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
 
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_main" />
-
-    <!--
-This layout is a two-pane layout for the Items master/detail flow.
--->
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/fragment_main"
+        android:id="@+id/fragment"
         android:name="com.example.al.moviesp1.MainActivityFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.example.al.moviesp1.MainActivityFragment"
-        tools:layout="@android:layout/list_content" />
+        tools:layout="@layout/fragment_main" />
 
-
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

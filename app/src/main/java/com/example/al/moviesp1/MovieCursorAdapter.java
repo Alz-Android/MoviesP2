@@ -21,7 +21,6 @@ public class MovieCursorAdapter extends CursorAdapter {
 
     public MovieCursorAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
-
     }
 
     @Override
