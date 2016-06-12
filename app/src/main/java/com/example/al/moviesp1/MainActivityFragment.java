@@ -25,7 +25,7 @@ import models.MoviesTable;
  */
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-//    private static MovieAdapter mMovieAdapter;
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private static final int MOVIE_LOADER = 0;
     private static MovieCursorAdapter mMovieAdapter;
     private boolean isFavorite;
@@ -132,11 +132,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final Cursor cursor = getActivity().getContentResolver().query(MoviesTable.CONTENT_URI, null, null, null, null);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        mMovieAdapter = new MovieCursorAdapter(getActivity(), cursor, 0);
+        mMovieAdapter = new MovieCursorAdapter(getActivity(), null , 0);
 
         // Get a reference to the GridView, and attach this adapter to it.
         GridView gridView = (GridView) rootView.findViewById(R.id.movies_grid);
@@ -147,17 +145,32 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                Cursor cursor1 = (Cursor) mMovieAdapter.getItem(position);
+                Cursor cursor = (Cursor) mMovieAdapter.getItem(position);
 
                 Log.i("MainActivityFragment", Integer.toString(position));
-                Log.i("MainActivityFragment", cursor1.getString(cursor.getColumnIndex("id")));
+                Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("id")));
 
-                String movieId = cursor1.getString(cursor1.getColumnIndex("id"));
+                String movieId = cursor.getString(cursor.getColumnIndex("id"));
 
-                Context context = getActivity();
-                Intent detailIntent = new Intent(context, DetailActivity.class);
-                detailIntent.putExtra("movie", movieId);
-                startActivity(detailIntent);
+                if(MainActivity.ismTwoPane()){
+
+                    Bundle args = new Bundle();
+                    args.putString("DetailFragment", movieId);
+
+                    DetailActivity.PlaceholderFragment detailFragment = new DetailActivity.PlaceholderFragment();
+                    detailFragment.setArguments(args);
+
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.detail_container, detailFragment, DETAILFRAGMENT_TAG)
+                            .commit();
+
+                }
+                else {
+                    Context context = getActivity();
+                    Intent detailIntent = new Intent(context, DetailActivity.class);
+                    detailIntent.putExtra("movie", movieId);
+                    startActivity(detailIntent);
+                }
             }
         });
         return rootView;

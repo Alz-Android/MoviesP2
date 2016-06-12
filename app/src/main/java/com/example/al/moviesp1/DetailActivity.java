@@ -26,16 +26,24 @@ public class DetailActivity extends AppCompatActivity {
 
     static View rootView;
     static String mTrailerPath=null;
-//    static String mReviews=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        if (savedInstanceState == null) {
+        if (getIntent() != null)  {
+
+            Bundle args = new Bundle();
+            args.putString("DetailFragment", getIntent().getStringExtra("movie"));
+
+            Log.i("DetailActivity1", getIntent().getStringExtra("movie"));
+
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            fragment.setArguments(args);
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.detail_container, new PlaceholderFragment())
+                    .add(R.id.detail_container, fragment)
                     .commit();
         }
     }
@@ -76,6 +84,7 @@ public class DetailActivity extends AppCompatActivity {
         public PlaceholderFragment() {
         }
 
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -83,15 +92,20 @@ public class DetailActivity extends AppCompatActivity {
             // and attaching the data to the appropriate Views in Detail Activity
             Log.i("DetailActivity", " onCreateView1");
 
-            Intent intent = getActivity().getIntent();
+ //           Intent intent = getActivity().getIntent();
             rootView = inflater.inflate(R.layout.fragment_detail_activity, container, false);
 
-            if(intent.hasExtra("movie")) {
+            Bundle arguments = getArguments();
+            if (arguments != null) {
+                final String movieId = arguments.getString("DetailFragment");
+
+
+                //          if(intent.hasExtra("movie")) {
 
                 Log.i("DetailActivity", " onCreateView2");
-                Log.i("DetailActivity", container.toString());
+                Log.i("DetailActivity", movieId);
 
-                final String movieId = intent.getStringExtra("movie");
+                //  final String movieId = intent.getStringExtra("movie");
 
                 // Get Reviews and trailers, trailer button shoudl appear once data available (call back)
 
@@ -100,7 +114,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 final String[] MOVIE_COLUMNS = {
                         MoviesTable.FIELD_POSTER_PATH,
-                        MoviesTable.FIELD_TITLE ,
+                        MoviesTable.FIELD_TITLE,
                         MoviesTable.FIELD_OVERVIEW,
                         MoviesTable.FIELD_VOTEAVERAGE,
                         MoviesTable.FIELD_POPULARITY,
@@ -112,7 +126,7 @@ public class DetailActivity extends AppCompatActivity {
                         MoviesTable.CONTENT_URI,
                         MOVIE_COLUMNS,
                         MoviesTable.FIELD_ID + " = ?",
-                        new String[] {movieId},
+                        new String[]{movieId},
                         null);
 
                 cursor.moveToFirst();

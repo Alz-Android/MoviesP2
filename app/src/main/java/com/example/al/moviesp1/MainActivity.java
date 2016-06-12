@@ -9,7 +9,13 @@ import com.facebook.stetho.Stetho;
 public class MainActivity extends AppCompatActivity {
 
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
-    private boolean mTwoPane;
+    private static boolean mTwoPane;
+
+    public static boolean ismTwoPane() {
+        return mTwoPane;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
