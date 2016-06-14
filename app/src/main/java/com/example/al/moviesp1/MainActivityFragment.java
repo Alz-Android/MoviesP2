@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -129,6 +130,13 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         }
     }
 
+    /**
+     * DetailFragmentCallback for when Setting has been changed and 2-pane is being used
+     */
+    public interface FragmentCallback {
+            public void onItemSelected();
+        }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -139,6 +147,24 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         // Get a reference to the GridView, and attach this adapter to it.
         GridView gridView = (GridView) rootView.findViewById(R.id.movies_grid);
         gridView.setAdapter(mMovieAdapter);
+        Log.i("MainActivityFragment", "performItemClick0");
+//        if(!MainActivity.ismTwoPane()) {
+//            Log.i("MainActivityFragment", "performItemClick1");
+//            gridView.performItemClick(null, 0, gridView.getFirstVisiblePosition());
+//            Log.i("MainActivityFragment", "performItemClick2");
+//        }
+
+//        gridView.performItemClick(
+//                gridView.getChildAt(0),
+//                0,
+//                gridView.getFirstVisiblePosition()
+//        );
+
+        Log.i("MainActivityFragment", "performItemClick3");
+
+
+
+
 
         // Creating the intent to launch detailed view
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -147,7 +173,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
                 Cursor cursor = (Cursor) mMovieAdapter.getItem(position);
 
-                Log.i("MainActivityFragment", Integer.toString(position));
+                Log.i("MainActivityFragmentz", Integer.toString(position));
                 Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("id")));
 
                 String movieId = cursor.getString(cursor.getColumnIndex("id"));
@@ -164,6 +190,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                             .replace(R.id.detail_container, detailFragment, DETAILFRAGMENT_TAG)
                             .commit();
 
+                    ((Callback)getActivity()).onItemSelected();
                 }
                 else {
                     Context context = getActivity();
@@ -179,10 +206,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private void update() {
         Log.i("MainActivityFrag update", getActivity().toString());
         GetMovieData movieData = new GetMovieData(getActivity());
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//        String sortOrder = prefs.getString(getString(R.string.pref_sort_order_key), getString(R.string.pref_sort_order_popularity));
-//        Log.i("MainActivityFrag update", sortOrder);
-
         movieData.updateMovies();
     }
 }

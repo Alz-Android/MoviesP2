@@ -88,26 +88,17 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            // Creating the intent to rcv data from the Main Activity
-            // and attaching the data to the appropriate Views in Detail Activity
+
             Log.i("DetailActivity", " onCreateView1");
 
- //           Intent intent = getActivity().getIntent();
             rootView = inflater.inflate(R.layout.fragment_detail_activity, container, false);
 
             Bundle arguments = getArguments();
             if (arguments != null) {
                 final String movieId = arguments.getString("DetailFragment");
 
-
-                //          if(intent.hasExtra("movie")) {
-
                 Log.i("DetailActivity", " onCreateView2");
                 Log.i("DetailActivity", movieId);
-
-                //  final String movieId = intent.getStringExtra("movie");
-
-                // Get Reviews and trailers, trailer button shoudl appear once data available (call back)
 
                 GetTrailer trailerData = new GetTrailer();
                 trailerData.GetTrailer(movieId);
@@ -167,8 +158,12 @@ public class DetailActivity extends AppCompatActivity {
                             );
                             getContext().getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow,false));
                         }
-                        else
+                        else {
                             Log.i("DetailActivityFragment", " No");
+                            String selection = "favorite=? AND id=?";
+                            String[] args = new String[]{"true", movieId};
+                            getContext().getContentResolver().delete(MoviesTable.CONTENT_URI, selection , args);
+                        }
                     }
                 });
 
@@ -186,7 +181,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
 //        public interface FragmentCallback {
-//            public void onTaskDone();
+//            public void onGridChanged();
 //        }
 
     }
