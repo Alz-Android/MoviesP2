@@ -187,7 +187,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                             .replace(R.id.detail_container, detailFragment, DETAILFRAGMENT_TAG)
                             .commit();
 
-                    ((FragmentCallback)getActivity()).onItemSelected("0");
+     //               ((FragmentCallback)getActivity()).onItemSelected("0");
                 }
                 else {
                     Context context = getActivity();
