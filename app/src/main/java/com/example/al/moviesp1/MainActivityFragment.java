@@ -134,7 +134,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
      * DetailFragmentCallback for when Setting has been changed and 2-pane is being used
      */
     public interface FragmentCallback {
-            public void onItemSelected();
+            public void onItemSelected(String movieId);
         }
 
     @Override
@@ -147,6 +147,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         // Get a reference to the GridView, and attach this adapter to it.
         GridView gridView = (GridView) rootView.findViewById(R.id.movies_grid);
         gridView.setAdapter(mMovieAdapter);
+
         Log.i("MainActivityFragment", "performItemClick0");
 //        if(!MainActivity.ismTwoPane()) {
 //            Log.i("MainActivityFragment", "performItemClick1");
@@ -161,10 +162,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 //        );
 
         Log.i("MainActivityFragment", "performItemClick3");
-
-
-
-
 
         // Creating the intent to launch detailed view
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -190,7 +187,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                             .replace(R.id.detail_container, detailFragment, DETAILFRAGMENT_TAG)
                             .commit();
 
-                    ((Callback)getActivity()).onItemSelected();
+                    ((FragmentCallback)getActivity()).onItemSelected("0");
                 }
                 else {
                     Context context = getActivity();

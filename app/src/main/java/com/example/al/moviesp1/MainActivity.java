@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import com.facebook.stetho.Stetho;
 
+import java.net.URI;
+
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.FragmentCallback  {
 
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
@@ -49,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     public void onItemSelected(String movieId) {
 
         if (mTwoPane) {
-
-
             Log.i("main", "mTwoPane = true onItemSelected");
             Bundle args = new Bundle();
             args.putString("DetailFragment", movieId);
