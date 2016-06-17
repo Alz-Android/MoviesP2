@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     public void onItemSelected(String movieId) {
 
         if (mTwoPane) {
-            Log.i("main", "mTwoPane = true onItemSelected");
+            Log.i("main", "mTwoPane = true onItemSelected "+movieId);
             Bundle args = new Bundle();
             args.putString("DetailFragment", movieId);
 
