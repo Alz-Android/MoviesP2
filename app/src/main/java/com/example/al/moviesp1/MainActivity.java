@@ -9,7 +9,7 @@ import com.facebook.stetho.Stetho;
 
 import java.net.URI;
 
-public class MainActivity extends AppCompatActivity implements MainActivityFragment.FragmentCallback  {
+public class MainActivity extends AppCompatActivity{ // implements MainActivityFragment.FragmentCallback  {
 
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private static boolean mTwoPane;
@@ -46,27 +46,27 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
             mTwoPane = false;
         }
     }
-
-    @Override
-    public void onItemSelected(String movieId) {
-
-        if (mTwoPane) {
-            Log.i("main", "mTwoPane = true onItemSelected "+movieId);
-            Bundle args = new Bundle();
-            args.putString("DetailFragment", movieId);
-
-            DetailActivity.PlaceholderFragment detailFragment = new DetailActivity.PlaceholderFragment();
-            detailFragment.setArguments(args);
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_container, new DetailActivity.PlaceholderFragment(), DETAILFRAGMENT_TAG)
-                    .commit();
-
-        } else {
-            Log.i("main", "mTwoPane = false onItemSelected");
-
-        }
-    }
+//
+//    @Override
+//    public void onItemSelected(String movieId) {
+//
+//        if (mTwoPane) {
+//            Log.i("main", "mTwoPane = true onItemSelected "+movieId);
+//            Bundle args = new Bundle();
+//            args.putString("DetailFragment", movieId);
+//
+//            DetailActivity.PlaceholderFragment detailFragment = new DetailActivity.PlaceholderFragment();
+//            detailFragment.setArguments(args);
+//
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.detail_container, new DetailActivity.PlaceholderFragment(), DETAILFRAGMENT_TAG)
+//                    .commit();
+//
+//        } else {
+//            Log.i("main", "mTwoPane = false onItemSelected");
+//
+//        }
+//    }
 
 
 

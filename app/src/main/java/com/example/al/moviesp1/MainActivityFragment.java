@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -31,6 +32,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private static MovieCursorAdapter mMovieAdapter;
     private boolean isFavorite;
     private boolean isPopular;
+
+    private GridView gridView;
 
     public static MovieCursorAdapter getMovieAdapter() {
         return mMovieAdapter;
@@ -130,12 +133,26 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         }
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        gridView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //            GridView gridView = getGridView(); // Save a local reference rather than calling `getListView()` three times
+                gridView.setSelection(0);
+                gridView.performItemClick(gridView.getChildAt(0), 0, 0);
+            }
+        }, 2000);
+    }
+
     /**
      * DetailFragmentCallback for when Setting has been changed and 2-pane is being used
      */
-    public interface FragmentCallback {
-            public void onItemSelected(String movieId);
-        }
+//    public interface FragmentCallback {
+//            public void onItemSelected(String movieId);
+//        }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -145,25 +162,14 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         mMovieAdapter = new MovieCursorAdapter(getActivity(), null , 0);
 
         // Get a reference to the GridView, and attach this adapter to it.
-        GridView gridView = (GridView) rootView.findViewById(R.id.movies_grid);
+        gridView = (GridView) rootView.findViewById(R.id.movies_grid);
         gridView.setAdapter(mMovieAdapter);
 
         Log.i("MainActivityFragment", "performItemClick0");
-//        if(!MainActivity.ismTwoPane()) {
-//            Log.i("MainActivityFragment", "performItemClick1");
-//            gridView.performItemClick(null, 0, gridView.getFirstVisiblePosition());
-//            Log.i("MainActivityFragment", "performItemClick2");
-//        }
 
-//        gridView.performItemClick(
-//                gridView.getChildAt(0),
-//                0,
-//                gridView.getFirstVisiblePosition()
-//        );
 
         Log.i("MainActivityFragment", "performItemClick3");
 
-        // Creating the intent to launch detailed view
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
@@ -171,7 +177,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 Cursor cursor = (Cursor) mMovieAdapter.getItem(position);
 
                 Log.i("MainActivityFragmentz", Integer.toString(position));
-                Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("id")));
+ //               Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("id")));
 
                 String movieId = cursor.getString(cursor.getColumnIndex("id"));
 
@@ -186,8 +192,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.detail_container, detailFragment, DETAILFRAGMENT_TAG)
                             .commit();
-
-                     ((FragmentCallback)getActivity()).onItemSelected(movieId);
                 }
                 else {
                     Context context = getActivity();
