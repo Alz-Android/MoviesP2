@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import models.MoviesTable;
+import com.example.al.moviesp1.models.MoviesTable;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -96,6 +96,14 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mMovieAdapter.swapCursor(cursor);
+
+        gridView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                gridView.setSelection(0);
+                gridView.performItemClick(gridView.getChildAt(0), 0, 0);
+            }
+        }, 2000);
     }
 
     @Override
@@ -134,27 +142,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        gridView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //            GridView gridView = getGridView(); // Save a local reference rather than calling `getListView()` three times
-                gridView.setSelection(0);
-                gridView.performItemClick(gridView.getChildAt(0), 0, 0);
-            }
-        }, 2000);
-    }
-
-    /**
-     * DetailFragmentCallback for when Setting has been changed and 2-pane is being used
-     */
-//    public interface FragmentCallback {
-//            public void onItemSelected(String movieId);
-//        }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -177,7 +164,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 Cursor cursor = (Cursor) mMovieAdapter.getItem(position);
 
                 Log.i("MainActivityFragmentz", Integer.toString(position));
- //               Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("id")));
+                Log.i("MainActivityFragment", cursor.getString(cursor.getColumnIndex("id")));
 
                 String movieId = cursor.getString(cursor.getColumnIndex("id"));
 
@@ -186,7 +173,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                     Bundle args = new Bundle();
                     args.putString("DetailFragment", movieId);
 
-                    DetailActivity.PlaceholderFragment detailFragment = new DetailActivity.PlaceholderFragment();
+                    DetailActivityFragment detailFragment = new DetailActivityFragment();
                     detailFragment.setArguments(args);
 
                     getActivity().getSupportFragmentManager().beginTransaction()
@@ -206,8 +193,17 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     private void update() {
         Log.i("MainActivityFrag update", getActivity().toString());
-        GetMovieData movieData = new GetMovieData(getActivity());
-        movieData.updateMovies();
+        if(isOnline()) {
+            GetMovieData movieData = new GetMovieData(getActivity());
+            movieData.updateMovies();
+        }
+    }
+
+    private boolean isOnline() {
+        ConnectivityManager mngr = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = mngr.getActiveNetworkInfo();
+
+        return !(info == null || (info.getState() != NetworkInfo.State.CONNECTED));
     }
 }
 

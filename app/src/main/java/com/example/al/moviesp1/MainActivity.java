@@ -1,15 +1,12 @@
 package com.example.al.moviesp1;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import com.facebook.stetho.Stetho;
 
-import java.net.URI;
-
-public class MainActivity extends AppCompatActivity{ // implements MainActivityFragment.FragmentCallback  {
+public class MainActivity extends AppCompatActivity{
 
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private static boolean mTwoPane;
@@ -17,8 +14,6 @@ public class MainActivity extends AppCompatActivity{ // implements MainActivityF
     public static boolean ismTwoPane() {
         return mTwoPane;
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +33,7 @@ public class MainActivity extends AppCompatActivity{ // implements MainActivityF
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.detail_container, new DetailActivity.PlaceholderFragment(), DETAILFRAGMENT_TAG)
+                        .replace(R.id.detail_container, new DetailActivityFragment(), DETAILFRAGMENT_TAG)
                         .commit();
             }
         } else {
@@ -46,29 +41,6 @@ public class MainActivity extends AppCompatActivity{ // implements MainActivityF
             mTwoPane = false;
         }
     }
-//
-//    @Override
-//    public void onItemSelected(String movieId) {
-//
-//        if (mTwoPane) {
-//            Log.i("main", "mTwoPane = true onItemSelected "+movieId);
-//            Bundle args = new Bundle();
-//            args.putString("DetailFragment", movieId);
-//
-//            DetailActivity.PlaceholderFragment detailFragment = new DetailActivity.PlaceholderFragment();
-//            detailFragment.setArguments(args);
-//
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.detail_container, new DetailActivity.PlaceholderFragment(), DETAILFRAGMENT_TAG)
-//                    .commit();
-//
-//        } else {
-//            Log.i("main", "mTwoPane = false onItemSelected");
-//
-//        }
-//    }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

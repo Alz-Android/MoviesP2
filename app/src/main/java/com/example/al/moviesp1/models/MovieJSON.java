@@ -1,4 +1,4 @@
-package models;
+package com.example.al.moviesp1.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

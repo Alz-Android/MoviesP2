@@ -1,10 +1,6 @@
-package API;
+package com.example.al.moviesp1.API;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

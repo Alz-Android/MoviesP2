@@ -1,4 +1,4 @@
-package models;
+package com.example.al.moviesp1.models;
 
 import java.util.ArrayList;
 import java.util.List;

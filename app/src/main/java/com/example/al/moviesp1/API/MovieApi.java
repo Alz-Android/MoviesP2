@@ -1,9 +1,8 @@
-package API;
-import models.MovieList;
+package com.example.al.moviesp1.API;
+import com.example.al.moviesp1.models.MovieList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**

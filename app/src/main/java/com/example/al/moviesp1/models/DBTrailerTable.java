@@ -1,4 +1,4 @@
-package models;
+package com.example.al.moviesp1.models;
 
 import ckm.simple.sql_provider.annotation.SimpleSQLColumn;
 import ckm.simple.sql_provider.annotation.SimpleSQLTable;

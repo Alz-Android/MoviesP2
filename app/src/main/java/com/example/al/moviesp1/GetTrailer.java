@@ -1,18 +1,15 @@
 package com.example.al.moviesp1;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import API.ReviewApi;
-import API.ServiceGenerator;
-import API.TrailerApi;
-import models.ReviewsList;
-import models.TrailerList;
+import com.example.al.moviesp1.API.ReviewApi;
+import com.example.al.moviesp1.API.ServiceGenerator;
+import com.example.al.moviesp1.API.TrailerApi;
+import com.example.al.moviesp1.models.ReviewsList;
+import com.example.al.moviesp1.models.TrailerList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,19 +23,9 @@ public class GetTrailer {
     ReviewApi reviewService = ServiceGenerator.createService(ReviewApi.class);
 
     String apiKey = BuildConfig.MOVIES_TMDB_API_KEY;
-//
-//    public static ArrayList<String> getmYoutubeKeys() {
-//        return mYoutubeKeys;
-//    }
-
-//    public static ArrayList<String> getmMovieReviews() {
-//        return mMovieReviews;
-//    }
 
     static ArrayList<String> mYoutubeKeys = new ArrayList<>();
     static ArrayList<String> mMovieReviews = new ArrayList<>();
-
-//    private DetailActivity.PlaceholderFragment.FragmentCallback mFragmentCallback;
 
     public void GetTrailer(String movieId) {
 
@@ -62,9 +49,9 @@ public class GetTrailer {
                         Log.i("sort1z", response.body().results.get(j).content);
                     }
                     if (mMovieReviews.size() > 0)
-                        ((TextView) DetailActivity.rootView.findViewById(R.id.review_text)).setText(mMovieReviews.get(0));
+                        ((TextView) DetailActivityFragment.rootView.findViewById(R.id.review_text)).setText(mMovieReviews.get(0));
                     else
-                        ((TextView) DetailActivity.rootView.findViewById(R.id.review_text)).setText("No reviews available");
+                        ((TextView) DetailActivityFragment.rootView.findViewById(R.id.review_text)).setText("No reviews available");
 
                 } else {
                     Log.i("sort1z", "update4z");
@@ -89,7 +76,7 @@ public class GetTrailer {
                         Log.i("sort1z", response.body().results.get(j).key);
                     }
                     if (mYoutubeKeys.size() > 0)
-                        DetailActivity.mTrailerPath = mYoutubeKeys.get(0);
+                        DetailActivityFragment.mTrailerPath = mYoutubeKeys.get(0);
 
                 } else {
                     Log.i("sort1", "update4");

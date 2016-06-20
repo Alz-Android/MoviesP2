@@ -1,21 +1,20 @@
 package com.example.al.moviesp1;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.util.ArrayList;
-import API.MovieApi;
-import API.ServiceGenerator;
+import com.example.al.moviesp1.API.MovieApi;
+import com.example.al.moviesp1.API.ServiceGenerator;
 
-import models.DBMovieTable;
-import models.MoviesTable;
+import com.example.al.moviesp1.models.DBMovieTable;
+import com.example.al.moviesp1.models.MoviesTable;
 import retrofit2.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import models.MovieJSON;
-import models.MovieList;
+import com.example.al.moviesp1.models.MovieJSON;
+import com.example.al.moviesp1.models.MovieList;
 
 /**
  * Created by Al on 1/27/2016.
@@ -23,7 +22,6 @@ import models.MovieList;
 public class GetMovieData {
 
     private Context mContext;
-//    private MainActivityFragment mainActivityFragment = new MainActivityFragment();
     ArrayList<MovieInfo> movieInfoList = new ArrayList<>();
 
     public GetMovieData(Context context) {
@@ -32,7 +30,6 @@ public class GetMovieData {
 
     public void updateMovies() {
         Log.i("sort1", "update1");
-
         movieInfoList.clear();
 
         // default 'false' flag for movies being favorites
@@ -78,8 +75,6 @@ public class GetMovieData {
                             mContext.getContentResolver().insert(MoviesTable.CONTENT_URI, MoviesTable.getContentValues(movieRow, false));
                         }
                         Log.i("sort1", response.headers().toString());
-
- //                       mainActivityFragment.setMovieAdapter(movieInfoList, mContext);
                     } else {
                         Log.i("sort1", "update Error");
                         // error response, no access to resource?
