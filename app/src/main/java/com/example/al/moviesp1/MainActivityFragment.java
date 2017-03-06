@@ -97,13 +97,13 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mMovieAdapter.swapCursor(cursor);
 
-        gridView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                gridView.setSelection(0);
-                gridView.performItemClick(gridView.getChildAt(0), 0, 0);
-            }
-        }, 2000);
+//        gridView.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                gridView.setSelection(0);
+//                gridView.performItemClick(gridView.getChildAt(0), 0, 0);
+//            }
+//        }, 2000);
     }
 
     @Override

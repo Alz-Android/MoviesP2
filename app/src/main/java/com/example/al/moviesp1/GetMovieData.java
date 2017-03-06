@@ -45,6 +45,8 @@ public class GetMovieData {
             Call<MovieList> call = movieService.MOVIE_LIST_CALL(String.valueOf(sortOrders[j]), apiKey);
             Log.i("sort1", "update11");
 
+            Log.i("sort1", call.request().url().toString());
+
             final String isPopular = (j == 0 ? "true" : "false");
 
             call.enqueue(new Callback<MovieList>() {
