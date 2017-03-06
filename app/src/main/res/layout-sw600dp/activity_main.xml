@@ -8,11 +8,11 @@
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
-    tools:context="com.example.al.moviesp1.MainActivity">
+    tools:context="com.alz.al.moviesp1.MainActivity">
 
     <fragment
         android:id="@+id/fragment_main"
-        android:name="com.example.al.moviesp1.MainActivityFragment"
+        android:name="com.alz.al.moviesp1.MainActivityFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
